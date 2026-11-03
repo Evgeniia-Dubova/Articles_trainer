@@ -141,7 +141,7 @@ td:first-child{font-weight:800;white-space:nowrap}
 .fb .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
 .minichip{font-weight:900;font-size:13px;padding:3px 10px;border-radius:99px;border:2px solid var(--stroke);color:var(--on)}
 .minichip.g-a{background:var(--a)} .minichip.g-the{background:var(--the)} .minichip.g-zero{background:var(--z)}
-.link{background:none;border:0;padding:0;font-weight:900;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
+.link{background:none;border:0;padding:0;font-weight:900;text-decoration:underline;text-underline-offset:3px;color:var(--ink);text-align:left;line-height:1.35}
 .hint{font-size:13px;color:var(--muted);font-weight:700;text-align:center}
 
 /* end */
@@ -170,7 +170,8 @@ body.wm .w:hover{background:var(--z-soft)}
 .wmode b{font-family:var(--display);font-size:12px;width:30px;height:30px;display:grid;place-items:center;border-radius:99px;background:var(--z-soft);border:2px solid var(--stroke)}
 .wmode.on{background:var(--z);color:var(--on)} .wmode.on b{background:var(--card);color:var(--ink)}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:16;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:800;font-size:14px;max-width:calc(100% - 32px);text-align:center}
-.wrap{padding-bottom:60px}
+.wrap{padding-bottom:84px}
+@media (max-width:520px){.wmode{padding:8px}.wmode span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}.wmode b{width:36px;height:36px;font-size:13px}}
 .addform{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:16px;border-radius:14px;border:2px dashed var(--stroke);background:var(--z-soft)}
 .addform label,.flabel{font-weight:800;font-size:14px}
 .inrow{display:flex;gap:8px;align-items:stretch}
@@ -252,7 +253,9 @@ input[type=text]:focus{outline:3px solid var(--the);outline-offset:1px}
 .picker{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;
   background:var(--card);border-top:2.5px solid var(--stroke);padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-shadow:0 -4px 0 var(--shadow)}
-.picker .opt{min-width:64px;padding:10px 12px;font-size:18px}
+.picker .opt{min-width:54px;padding:10px 8px;font-size:18px}
+.picker{gap:6px}
+.nw{white-space:nowrap}
 .pairgrid{display:grid;gap:16px}
 .pitem{display:grid;gap:10px;padding:14px;border:2px dashed var(--stroke);border-radius:14px}
 .pitem .sent{font-size:clamp(19px,4.2vw,23px)}
@@ -261,13 +264,14 @@ input[type=text]:focus{outline:3px solid var(--the);outline-offset:1px}
 .opt.chosen{background:var(--z);color:var(--on)}
 .h2{font-size:20px}
 .badge.g-a{background:var(--a)} .badge.g-the{background:var(--the)} .badge.g-zero{background:var(--z)}
-.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.trio{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+@media (min-width:720px){.trio{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .tcell{margin:0;padding:14px;border:2px solid var(--stroke);border-radius:16px;background:var(--bg);display:grid;gap:10px;justify-items:start}
 .tcell .badge{font-size:15px;min-width:0;padding:3px 12px}
 .tcell figcaption{display:grid;gap:4px}
 .tcell figcaption b{font-size:17px}
 .tcell figcaption > span{color:var(--muted);font-weight:700;font-size:14px}
-.crowd{width:100%;height:auto;max-width:100%}
+.crowd{width:100%;height:auto;max-width:320px}
 .fig circle,.fig path,.fig rect{fill:var(--card);stroke:var(--stroke);stroke-width:2}
 .fig.dim{opacity:.35}
 .fig.pick-a circle,.fig.pick-a path,.fig.pick-a rect{fill:var(--a);stroke-dasharray:4 3}
@@ -276,19 +280,20 @@ input[type=text]:focus{outline:3px solid var(--the);outline-offset:1px}
 .ctext{fill:var(--ink);font:900 14px var(--body);text-anchor:middle}
 .arrow{fill:none;stroke:var(--the);stroke-width:2.5}
 .flow{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:f}
-.flow li{position:relative;display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:14px 0 14px 46px;border-bottom:2px dashed var(--stroke);counter-increment:f}
+.flow li{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:8px 16px;align-items:center;padding:14px 0 14px 46px;border-bottom:2px dashed var(--stroke);counter-increment:f}
 .flow li:last-child{border-bottom:0}
 .flow li::before{content:counter(f);position:absolute;left:0;top:14px;width:32px;height:32px;display:grid;place-items:center;border-radius:99px;border:2.5px solid var(--stroke);background:var(--card);font-family:var(--display);font-size:13px}
-.flow li:not(:last-child)::after{content:"ні ↓";position:absolute;left:4px;bottom:-11px;font-size:11px;font-weight:900;color:var(--muted);background:var(--card);padding:0 3px}
+.flow li:not(:last-child)::after{content:"ні ↓";position:absolute;left:0;width:32px;text-align:center;bottom:-10px;font-size:11px;font-weight:900;color:var(--muted);background:var(--card);padding:0 3px}
 .fq{font-size:16px;font-weight:700;min-width:0}
-.fa{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.fa{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-start}
 .yes{font-size:12px;font-weight:900;color:var(--ok)}
 .fx{font-size:13px;color:var(--muted);font-weight:800}
 .fnote{grid-column:1/-1;font-size:13.5px;color:var(--muted);font-weight:700;padding:6px 10px;border-radius:10px;background:var(--the-soft)}
-@media (max-width:520px){.flow li{grid-template-columns:1fr}.fa{justify-content:flex-start}}
+@media (max-width:700px){.flow li{grid-template-columns:minmax(0,1fr)}}
 .sounds,.geo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .scol,.gcol{border:2px solid var(--stroke);border-radius:16px;padding:12px;display:grid;gap:6px;background:var(--bg);align-content:start}
 .shead{font-weight:800;font-size:14.5px;margin-bottom:4px}
+.sounds .shead{min-height:2.9em}
 .srow2{display:flex;justify-content:space-between;gap:10px;padding:6px 10px;border-radius:10px;background:var(--card);font-weight:800}
 .ss{font-family:var(--display);font-size:12px;color:var(--muted);align-self:center}
 .day{display:grid;grid-template-columns:3fr auto 3fr 2fr 4fr auto;gap:6px;align-items:stretch}
@@ -306,7 +311,7 @@ table.cheat{min-width:520px}
 table.cheat td{font-size:14.5px}
 table.cheat td:first-child{white-space:normal}
 .gcell{vertical-align:middle;text-align:center}
-.gcell .badge{font-size:14px;min-width:0;padding:3px 10px;display:inline-block}
+.gcell .badge{font-size:14px;min-width:0;padding:3px 10px;display:inline-block;white-space:nowrap}
 tr.g-a .gcell{background:var(--a-soft)} tr.g-the .gcell{background:var(--the-soft)} tr.g-zero .gcell{background:var(--z-soft)}
 .ts{display:block;color:var(--muted);font-size:13px;font-weight:700}
 .tex{font-weight:700}
@@ -318,7 +323,10 @@ tr.g-a .gcell{background:var(--a-soft)} tr.g-the .gcell{background:var(--the-sof
 .it{font-family:var(--display);font-size:15px}
 .ie{font-size:16.5px;font-weight:800}
 .iu{color:var(--muted);font-weight:700;font-size:14px}
-.ir{font-size:14px}
+.ir{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.ir .link{font-size:13.5px;font-weight:800;text-decoration:none;padding:5px 12px;border:1.5px solid var(--stroke);border-radius:99px;background:var(--card);line-height:1.3}
+.ir .link::before{content:"→ ";color:var(--muted)}
+.ir .link:hover{background:var(--the-soft)}
 .ill{width:100%;height:auto;max-width:100%;display:block}
 .ill .lab{fill:var(--ink);font:900 13px var(--body);text-anchor:middle}
 .ill .num{fill:var(--muted);font:800 12px var(--display);text-anchor:middle}
@@ -666,7 +674,7 @@ function home(){
   </div>
   ${statsPanel()}
   <div class="tip sticker"><b class="k">a чи an?</b><p>Дивимось на <b>звук</b>, а не на букву: <b>an</b> apple, <b>an</b> hour (h не читається), але <b>a</b> university (звук «ю»).</p></div>
-  <div class="tip sticker" style="background:var(--the-soft)"><b class="k" style="background:var(--the)">слова</b><p>Не знаєш слово? Увімкни кнопку <b>«Позначати слова»</b> внизу екрана й натисни на слово в будь-якому прикладі. Воно потрапить у «Мої слова».</p></div>`;
+  <div class="tip sticker" style="background:var(--the-soft)"><b class="k" style="background:var(--the)">слова</b><p>Не знаєш слово? Увімкни кнопку <b>Aa «Позначати слова»</b> у правому нижньому куті й натисни на слово в будь-якому прикладі. Воно потрапить у «Мої слова».</p></div>`;
   for(const g of Object.values(GROUPS)){
     const rs=RULES.filter(r=>r.g===g.key);
     h+=`<section class="topic g-${g.key}"><div class="topic-head"><span class="badge">${g.badge}</span><div><h2>${g.title}</h2><div class="sub">${g.sub}</div></div><span class="spacer"></span>
@@ -740,7 +748,7 @@ function wordsPage(){
       <button class="btn teal" data-act="wstudy" data-m="cards">Картки</button>
       <button class="btn primary" data-act="wstudy" data-m="type" ${withTr?'':'disabled'}>Напиши слово</button></div>
       ${withTr?'':'<p class="hint" style="text-align:left">Щоб відкрити «Напиши слово», допиши переклад хоча б до одного слова.</p>'}</div>`}
-  if(!ws.length) h+=`<p class="empty">Тут поки порожньо. Увімкни «Позначати слова» внизу екрана й натисни на незнайоме слово в будь-якому прикладі.</p>`;
+  if(!ws.length) h+=`<p class="empty">Тут поки порожньо. Увімкни кнопку Aa «Позначати слова» у правому нижньому куті й натисни на незнайоме слово в будь-якому прикладі.</p>`;
   else{h+=`<div class="wlist">`;ws.forEach((w,i)=>{
     h+=`<div class="witem"><div class="whead"><b class="ww">${esc(w.w)}</b>${dots(w.lvl)}<a class="glink" href="https://translate.google.com/?sl=en&tl=uk&text=${encodeURIComponent(w.w)}" target="_blank" rel="noopener">Google Перекладач ↗</a></div>
     ${w.ctx?`<p class="wctx">${esc(w.ctx)}</p>`:''}
@@ -891,7 +899,7 @@ const ILL={
 function star(x,y,r){let d='';for(let i=0;i<10;i++){const a=Math.PI/5*i-Math.PI/2, rr=i%2?r*.45:r;d+=(i?'L':'M')+(x+Math.cos(a)*rr).toFixed(1)+' '+(y+Math.sin(a)*rr).toFixed(1)+' '}return d+'Z'}
 function illCard(k,withRules){const I=ILL[k];
   return `<figure class="illcard">${I.svg()}<figcaption><b class="it">${I.t}</b>${I.en.map(e=>`<span class="ie">${rich(e)}</span>`).join('')}<span class="iu">${I.ua}</span>
-  ${withRules?`<span class="ir">${I.rules.map(r=>`<button class="link" data-act="rule" data-id="${r}">${RM[r].t}</button>`).join(' · ')}</span>`:''}</figcaption></figure>`}
+  ${withRules?`<span class="ir">${I.rules.map(r=>`<button class="link" data-act="rule" data-id="${r}">${RM[r].t}</button>`).join('')}</span>`:''}</figcaption></figure>`}
 function illFor(id){return Object.keys(ILL).filter(k=>ILL[k].rules.includes(id))}
 function cheatPage(){
   let h=`<div class="top"><button class="btn ghost" data-act="home">← Усі правила</button></div>
@@ -913,7 +921,7 @@ function cheatPage(){
   <ol class="flow">
     <li><div class="fq">Перед словом уже є <b>my, your, his, this, that</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-z">Ø</span><span class="fx">my bag</span></div></li>
     <li><div class="fq">Це <b>ім'я, місто, країна, мова, спорт, день, місяць, свято</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-z">Ø</span><span class="fx">in Dublin, on Monday</span></div><div class="fnote">Але річки, моря, океани, гори, пустелі й the UK / the USA / the Netherlands з <b>the</b>.</div></li>
-    <li><div class="fq">Обидва знаємо, <b>про що саме</b> мова? Вже згадували, воно єдине, є <b>-est / the first</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-the">the</span><span class="fx">the sun, the best</span></div></li>
+    <li><div class="fq">Обидва знаємо, <b>про що саме</b> мова? Вже згадували, воно єдине, є <b class="nw">-est / the first</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-the">the</span><span class="fx">the sun, the best</span></div></li>
     <li><div class="fq">Одна злічувана річ, <b>одна з багатьох</b>, професія?</div><div class="fa"><span class="yes">так</span><span class="art k-a">a / an</span><span class="fx">a job, an idea</span></div></li>
     <li class="last"><div class="fq">Множина чи незлічуване <b>загалом</b>.</div><div class="fa"><span class="yes">інакше</span><span class="art k-z">Ø</span><span class="fx">I like music</span></div></li>
   </ol></section>

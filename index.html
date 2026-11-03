@@ -7,24 +7,24 @@
 <style>
 /* Layout: sticker-style cards on a soft pink-to-peach ground; one colour per article (a/an coral, the mint, Ø yellow) */
 :root{
-  --bg:#fdeef3; --dot:rgba(140,95,116,.08); --card:#ffffff; --ink:#43303a; --muted:#86707c;
-  --stroke:#8c5f74; --shadow:#f0c4d4; --on:#43303a;
-  --a:#ff9480; --a-soft:#ffe6df; --the:#5ec2b2; --the-soft:#dbf4ee; --z:#f8c95e; --z-soft:#fff3d5;
+  --bg:#f8eef0; --dot:rgba(122,96,106,.07); --card:#fffcfc; --ink:#45363c; --muted:#85747b;
+  --stroke:#8f737e; --shadow:#e8d4da; --on:#45363c;
+  --a:#e8a597; --a-soft:#f6e6e2; --the:#94c4b8; --the-soft:#e4f1ed; --z:#e9cb88; --z-soft:#f8f0dc; --link:#4f8679;
   --ok:#1d9a52; --ok-soft:#d9f5e4; --bad:#dc4136; --bad-soft:#fde0dd;
-  --bgimg:linear-gradient(180deg,#fde4ee 0%,#fff0ea 55%,#fff6ec 100%);
+  --bgimg:linear-gradient(180deg,#f5e6eb 0%,#f8ede9 55%,#f9f2ec 100%);
   --display:"Unbounded","Arial Black",system-ui,sans-serif;
   --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#1f1519; --dot:rgba(247,233,238,.06); --card:#2a1d23; --ink:#f7e9ee; --muted:#c0a6b1;
   --stroke:#5e4350; --shadow:#0d0809; --on:#24171c;
-  --a:#ff9a86; --a-soft:#40251f; --the:#5fcab9; --the-soft:#173330; --z:#ffcf6a; --z-soft:#3a2f17;
+  --a:#e3a497; --a-soft:#3a2622; --the:#8cc3b6; --the-soft:#1c302c; --z:#e6c784; --z-soft:#362e1d; --link:#8cc3b6;
   --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b;
   --bgimg:linear-gradient(180deg,#2b1821 0%,#26191b 55%,#231a16 100%); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#1f1519; --dot:rgba(247,233,238,.06); --card:#2a1d23; --ink:#f7e9ee; --muted:#c0a6b1;
   --stroke:#5e4350; --shadow:#0d0809; --on:#24171c;
-  --a:#ff9a86; --a-soft:#40251f; --the:#5fcab9; --the-soft:#173330; --z:#ffcf6a; --z-soft:#3a2f17;
+  --a:#e3a497; --a-soft:#3a2622; --the:#8cc3b6; --the-soft:#1c302c; --z:#e6c784; --z-soft:#362e1d; --link:#8cc3b6;
   --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b;
   --bgimg:linear-gradient(180deg,#2b1821 0%,#26191b 55%,#231a16 100%); color-scheme:dark}
 
@@ -158,7 +158,7 @@ td:first-child{font-weight:800;white-space:nowrap}
 .unc-head p{color:var(--muted);font-size:14.5px;max-width:56ch}
 .unc .tablewrap{background:var(--card)}
 .exlist li .en{font-size:18px;font-weight:700}
-.trbtn{margin-top:6px;background:none;border:0;padding:2px 0;font-weight:800;font-size:13.5px;color:var(--the);text-decoration:underline;text-underline-offset:3px}
+.trbtn{margin-top:6px;background:none;border:0;padding:2px 0;font-weight:800;font-size:13.5px;color:var(--link);text-decoration:underline;text-underline-offset:3px}
 .tr{display:block;font-weight:700;font-size:15px;margin-top:4px;padding:6px 10px;border-radius:10px;background:var(--the-soft)}
 .q .tr{font-size:16px}
 .w{border-radius:5px;transition:background .15s}
@@ -191,7 +191,7 @@ input[type=text]:focus{outline:3px solid var(--the);outline-offset:1px}
 .witem{padding:14px;border:2px solid var(--stroke);border-radius:14px;display:grid;gap:8px;background:var(--bg)}
 .whead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
 .ww{font-family:var(--display);font-size:20px}
-.glink{font-weight:800;font-size:13.5px;color:var(--the)}
+.glink{font-weight:800;font-size:13.5px;color:var(--link)}
 .wctx{color:var(--muted);font-weight:700;font-style:italic}
 .panel{padding:20px;display:grid;gap:16px}
 .phead{display:grid;gap:4px}

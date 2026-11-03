@@ -1,0 +1,1263 @@
+<!doctype html><html lang="uk"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Тренажер артиклів</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Nunito:wght@500;700;800;900&display=swap">
+</head><body>
+<style>
+/* Layout: sticker-style cards on a dotted notebook ground; one colour per article (a/an coral, the teal, Ø mustard) */
+:root{
+  --bg:#eef5f2; --dot:rgba(27,34,48,.10); --card:#ffffff; --ink:#1b2230; --muted:#5a6575;
+  --stroke:#1b2230; --shadow:#1b2230; --on:#1b2230;
+  --a:#ff6a4d; --a-soft:#ffe2da; --the:#12a397; --the-soft:#d3f2ee; --z:#f2b200; --z-soft:#fff0c0;
+  --ok:#1d9a52; --ok-soft:#d9f5e4; --bad:#dc4136; --bad-soft:#fde0dd;
+  --display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121820; --dot:rgba(238,242,247,.07); --card:#1b232e; --ink:#eef2f7; --muted:#9ba7b7;
+  --stroke:#3c4859; --shadow:#05080b; --on:#141a22;
+  --a:#ff8068; --a-soft:#3b2420; --the:#2fc3b6; --the-soft:#12332f; --z:#ffc93d; --z-soft:#382e14;
+  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121820; --dot:rgba(238,242,247,.07); --card:#1b232e; --ink:#eef2f7; --muted:#9ba7b7;
+  --stroke:#3c4859; --shadow:#05080b; --on:#141a22;
+  --a:#ff8068; --a-soft:#3b2420; --the:#2fc3b6; --the-soft:#12332f; --z:#ffc93d; --z-soft:#382e14;
+  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);background-size:22px 22px;
+  color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.15}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--the);outline-offset:3px}
+
+.sticker{background:var(--card);border:2.5px solid var(--stroke);border-radius:18px;box-shadow:4px 4px 0 var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2.5px solid var(--stroke);border-radius:14px;
+  padding:11px 18px;font-weight:900;background:var(--card);box-shadow:3px 3px 0 var(--shadow);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--shadow)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--shadow)}
+.btn.primary{background:var(--a);color:var(--on)}
+.btn.teal{background:var(--the);color:var(--on)}
+.btn.sun{background:var(--z);color:var(--on)}
+.btn.ghost{box-shadow:none;border-color:transparent;background:transparent;padding:8px 10px}
+.btn:disabled{opacity:.45;pointer-events:none}
+
+/* hero */
+.hero{display:grid;gap:18px}
+.tokens{display:flex;gap:10px;flex-wrap:wrap}
+.tok{font-family:var(--display);font-weight:800;font-size:clamp(28px,7vw,46px);padding:4px 18px;border:2.5px solid var(--stroke);
+  border-radius:16px;box-shadow:4px 4px 0 var(--shadow);color:var(--on);animation:pop .5s cubic-bezier(.3,1.6,.5,1) both}
+.tok:nth-child(1){background:var(--a);transform:rotate(-4deg)}
+.tok:nth-child(2){background:var(--a);transform:rotate(3deg);animation-delay:.06s}
+.tok:nth-child(3){background:var(--the);transform:rotate(-2deg);animation-delay:.12s}
+.tok:nth-child(4){background:var(--z);transform:rotate(5deg);animation-delay:.18s}
+@keyframes pop{from{scale:.6}to{scale:1}}
+.hero h1{font-size:clamp(26px,5.4vw,40px);font-weight:800}
+.hero .lead{color:var(--muted);font-size:17px;max-width:56ch}
+.statrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.bar{height:12px;border-radius:99px;background:var(--bg);border:2px solid var(--stroke);overflow:hidden;flex:1;min-width:140px}
+.bar i{display:block;height:100%;background:var(--the);border-radius:99px;transition:width .4s}
+.meta{font-weight:800;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:12px}
+
+.tip{padding:16px 18px;display:flex;gap:14px;align-items:flex-start;background:var(--z-soft)}
+.tip b.k{font-family:var(--display);font-size:13px;background:var(--z);color:var(--on);padding:4px 9px;border-radius:9px;border:2px solid var(--stroke);white-space:nowrap}
+
+/* topic */
+.topic{display:grid;gap:16px}
+.topic-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.badge{font-family:var(--display);font-weight:800;font-size:22px;min-width:64px;text-align:center;padding:6px 14px;border-radius:14px;
+  border:2.5px solid var(--stroke);box-shadow:3px 3px 0 var(--shadow);color:var(--on)}
+.g-a .badge,.g-a.badge{background:var(--a)} .g-the .badge,.g-the.badge{background:var(--the)} .g-zero .badge,.g-zero.badge{background:var(--z)}
+.topic-head h2{font-size:20px}
+.topic-head .sub{color:var(--muted);font-weight:700;font-size:14px}
+.topic-head .spacer{flex:1}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.rcard{text-align:left;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0;transition:transform .12s,box-shadow .12s}
+.rcard:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
+.rcard h3{font-family:var(--body);font-weight:900;font-size:17px}
+.rcard p{color:var(--muted);font-size:14.5px;flex:1}
+.rcard .foot{display:flex;align-items:center;gap:10px}
+.rcard .bar{height:8px;border-width:1.5px}
+.g-a .rcard .bar i{background:var(--a)} .g-the .rcard .bar i{background:var(--the)} .g-zero .rcard .bar i{background:var(--z)}
+.num{font-family:var(--display);font-size:12px;opacity:.6}
+
+/* rule view */
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.rule{padding:22px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.rule>*,.q>*{min-width:0}
+@media (max-width:480px){.rule{padding:18px 14px}}
+.rule h1{font-size:clamp(22px,4.6vw,32px)}
+.rule .explain{font-size:17px;max-width:62ch}
+.exlist{display:grid;gap:10px;padding:0;margin:0;list-style:none}
+.exlist li{padding:12px 16px;border-radius:14px;border:2px dashed var(--stroke);font-size:18px;font-weight:700}
+.exlist li span.ua{display:block;font-weight:600;font-size:14px;color:var(--muted)}
+.art{display:inline-block;padding:0 7px;margin:0 1px;border-radius:8px;font-weight:900;color:var(--on)}
+.art.k-a{background:var(--a)} .art.k-the{background:var(--the)} .art.k-z{background:var(--z);font-family:var(--display);font-size:.8em;padding:1px 7px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:5px 12px;border-radius:99px;border:2px solid var(--stroke);font-weight:800;font-size:14px;background:var(--card)}
+.tablewrap{overflow-x:auto;border:2px solid var(--stroke);border-radius:14px}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:420px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1.5px solid var(--stroke);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-family:var(--display);font-size:12px;letter-spacing:.04em;background:var(--z-soft)}
+td:first-child{font-weight:800;white-space:nowrap}
+.label{font-family:var(--display);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* practice */
+.pbar{display:flex;align-items:center;gap:12px}
+.streak{font-weight:900;font-size:14px;padding:5px 12px;border-radius:99px;border:2px solid var(--stroke);background:var(--z);color:var(--on);font-variant-numeric:tabular-nums;white-space:nowrap}
+.q{padding:24px 20px;display:grid;gap:22px}
+.q .ask{font-family:var(--display);font-size:13px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.sent{font-size:clamp(21px,4.6vw,28px);font-weight:800;line-height:1.5}
+.slot{display:inline-block;min-width:2.8em;text-align:center;border-bottom:4px dashed var(--muted);margin:0 3px;padding:0 6px;line-height:1.25}
+.slot.ok{background:var(--ok-soft);border-bottom:4px solid var(--ok);border-radius:8px 8px 0 0}
+.slot.bad{background:var(--bad-soft);border-bottom:4px solid var(--bad);border-radius:8px 8px 0 0;text-decoration:line-through}
+.slot.hl{border-bottom:0;background:var(--the);color:var(--on);border-radius:9px}
+.slot.z{font-family:var(--display);font-size:.75em}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.opts.why{grid-template-columns:1fr}
+@media (max-width:480px){.opts{grid-template-columns:repeat(2,1fr)}}
+.opt{padding:14px 10px;font-size:20px;font-family:var(--display);font-weight:700;text-align:center}
+.opts.why .opt{font-family:var(--body);font-size:16px;font-weight:800;text-align:left;justify-content:flex-start;padding:13px 16px}
+.opt small{font-family:var(--body);font-size:12px;font-weight:700;color:var(--muted);display:block}
+.opt.right{background:var(--ok);color:var(--on)} .opt.right small{color:var(--on)}
+.opt.wrong{background:var(--bad);color:var(--on);animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{border-radius:16px;border:2.5px solid var(--stroke);padding:16px 18px;display:grid;gap:10px}
+.fb.good{background:var(--ok-soft)} .fb.miss{background:var(--bad-soft)}
+.fb h3{font-family:var(--body);font-weight:900;font-size:18px}
+.fb .rl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.fb .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.minichip{font-weight:900;font-size:13px;padding:3px 10px;border-radius:99px;border:2px solid var(--stroke);color:var(--on)}
+.minichip.g-a{background:var(--a)} .minichip.g-the{background:var(--the)} .minichip.g-zero{background:var(--z)}
+.link{background:none;border:0;padding:0;font-weight:900;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
+.hint{font-size:13px;color:var(--muted);font-weight:700;text-align:center}
+
+/* end */
+.end{padding:30px 22px;text-align:center;display:grid;gap:16px;justify-items:center}
+.score{font-family:var(--display);font-weight:800;font-size:clamp(56px,14vw,88px);line-height:1;font-variant-numeric:tabular-nums}
+.end .actions{justify-content:center}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.confetti i{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall 1.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.unc{padding:18px;display:grid;gap:14px;background:var(--a-soft)}
+.unc-head{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.unc-head .badge{background:var(--card);color:var(--ink)}
+.unc-head h3{font-family:var(--body);font-weight:900;font-size:17px}
+.unc-head p{color:var(--muted);font-size:14.5px;max-width:56ch}
+.unc .tablewrap{background:var(--card)}
+.exlist li .en{font-size:18px;font-weight:700}
+.trbtn{margin-top:6px;background:none;border:0;padding:2px 0;font-weight:800;font-size:13.5px;color:var(--the);text-decoration:underline;text-underline-offset:3px}
+.tr{display:block;font-weight:700;font-size:15px;margin-top:4px;padding:6px 10px;border-radius:10px;background:var(--the-soft)}
+.q .tr{font-size:16px}
+.w{border-radius:5px;transition:background .15s}
+.w.marked{background:var(--z-soft);box-shadow:inset 0 -3px 0 var(--z)}
+body.wm .w{cursor:pointer;text-decoration:underline dotted var(--muted);text-underline-offset:4px}
+body.wm .w:hover{background:var(--z-soft)}
+.wmode{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;align-items:center;gap:8px;
+  padding:10px 16px 10px 10px;border-radius:99px;border:2.5px solid var(--stroke);background:var(--card);box-shadow:3px 3px 0 var(--shadow);font-weight:900;font-size:14px}
+.wmode b{font-family:var(--display);font-size:12px;width:30px;height:30px;display:grid;place-items:center;border-radius:99px;background:var(--z-soft);border:2px solid var(--stroke)}
+.wmode.on{background:var(--z);color:var(--on)} .wmode.on b{background:var(--card);color:var(--ink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:16;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:800;font-size:14px;max-width:calc(100% - 32px);text-align:center}
+.wrap{padding-bottom:60px}
+.addform{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:16px;border-radius:14px;border:2px dashed var(--stroke);background:var(--z-soft)}
+.addform label,.flabel{font-weight:800;font-size:14px}
+.inrow{display:flex;gap:8px;align-items:stretch}
+.inrow input{flex:1;min-width:0}
+input[type=text]{font:inherit;font-size:16px;font-weight:700;color:var(--ink);background:var(--card);border:2px solid var(--stroke);border-radius:12px;padding:10px 12px}
+input[type=text]:focus{outline:3px solid var(--the);outline-offset:1px}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg label{position:relative}
+.seg input{position:absolute;opacity:0;inset:0}
+.seg span{display:block;min-width:52px;text-align:center;padding:8px 12px;border:2px solid var(--stroke);border-radius:12px;font-family:var(--display);font-size:15px;background:var(--card);cursor:pointer}
+.seg input:checked+span{background:var(--z);color:var(--on)}
+.seg input:focus-visible+span{outline:3px solid var(--the);outline-offset:2px}
+.ferr{color:var(--bad);font-weight:800;font-size:14px}
+.addform .btn{justify-self:start}
+.mineli{position:relative}
+.del{display:block;margin-top:6px;background:none;border:0;padding:0;font-weight:800;font-size:13px;color:var(--bad);text-decoration:underline;text-underline-offset:3px}
+.wlist{display:grid;gap:12px}
+.witem{padding:14px;border:2px solid var(--stroke);border-radius:14px;display:grid;gap:8px;background:var(--bg)}
+.whead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ww{font-family:var(--display);font-size:20px}
+.glink{font-weight:800;font-size:13.5px;color:var(--the)}
+.wctx{color:var(--muted);font-weight:700;font-style:italic}
+.panel{padding:20px;display:grid;gap:16px}
+.phead{display:grid;gap:4px}
+.phead h2{font-size:20px}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.mode{text-align:left;padding:14px 16px;border:2.5px solid var(--stroke);border-radius:16px;background:var(--card);display:grid;gap:4px;transition:transform .12s,box-shadow .12s}
+.mode b{font-family:var(--display);font-size:15px}
+.mode span{font-size:14px;color:var(--muted);font-weight:700}
+.mode.sel{box-shadow:4px 4px 0 var(--shadow);transform:translate(-2px,-2px)}
+.mode.sel.m-a{background:var(--a-soft)} .mode.sel.m-the{background:var(--the-soft)} .mode.sel.m-zero{background:var(--z-soft)}
+.mode.sel b::before{content:"✓ ";}
+.stats{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.srow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sline{display:flex;gap:10px;align-items:center;margin-top:6px}
+.sbar{flex:1;height:12px;border-radius:99px;border:2px solid var(--stroke);overflow:hidden;background:var(--bg);min-width:60px}
+.sbar i{display:block;height:100%}
+.sbar i.g-a{background:var(--a)} .sbar i.g-the{background:var(--the)} .sbar i.g-zero{background:var(--z)}
+.btn.small{padding:6px 12px;font-size:13px;box-shadow:2px 2px 0 var(--shadow)}
+.sent.spot .tk{cursor:pointer;border-radius:8px;padding:0 3px;transition:background .12s}
+.sent.spot:not(.done) .tk:hover{background:var(--the-soft)}
+.sent.spot.done .tk{cursor:default}
+.tk.good{background:var(--ok-soft);box-shadow:inset 0 -4px 0 var(--ok)}
+.tk.badspot{background:var(--bad-soft);box-shadow:inset 0 -4px 0 var(--bad)}
+.tk.miss{background:var(--bad-soft);text-decoration:line-through}
+.studybox{display:grid;gap:10px;padding:14px;border-radius:14px;background:var(--the-soft);border:2px solid var(--stroke)}
+.dots{display:inline-flex;gap:4px;margin-left:8px;vertical-align:middle}
+.dots i{width:9px;height:9px;border-radius:99px;border:2px solid var(--stroke);background:var(--card)}
+.dots i.on{background:var(--ok);border-color:var(--ok)}
+.fcard{display:grid;place-items:center;align-content:center;gap:12px;min-height:280px;padding:28px 20px;text-align:center;width:100%;background:var(--card);animation:flipin .35s ease}
+.fcard.flipped{background:var(--the-soft)}
+.fword{font-family:var(--display);font-size:clamp(28px,7vw,44px);line-height:1.2;overflow-wrap:anywhere}
+.fctx{color:var(--muted);font-weight:700;font-style:italic;font-size:16px;max-width:46ch}
+.muted{color:var(--muted);font-size:.6em}
+.actions.center{justify-content:center}
+@keyframes flipin{from{transform:rotateY(70deg);opacity:.4}to{transform:none;opacity:1}}
+.more{border:2px solid var(--stroke);border-radius:14px;background:var(--bg)}
+.more summary{cursor:pointer;padding:12px 16px;font-weight:900;font-size:15px;list-style-position:inside}
+.more[open] summary{border-bottom:2px dashed var(--stroke)}
+.more .exlist{padding:12px}
+.more .exlist li{background:var(--card)}
+.exlist .slot.hl{font-size:.95em}
+.extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.xcard{text-align:left;padding:18px;display:grid;gap:8px;justify-items:start;transition:transform .12s,box-shadow .12s}
+.xcard:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--shadow)}
+.xcard b{font-family:var(--display);font-size:18px}
+.xcard span:last-child{color:var(--muted);font-weight:700;font-size:14.5px}
+.xcard .badge{font-size:15px;min-width:0;padding:4px 12px}
+.spacer{flex:1}
+.story{font-size:clamp(18px,4.2vw,21px);font-weight:700;line-height:2.1}
+.sslot{display:inline-block;min-width:2.6em;margin:0 2px;padding:0 8px;border:2px dashed var(--stroke);border-radius:10px;background:var(--card);font-weight:900;line-height:1.5;vertical-align:baseline}
+.sslot.filled{border-style:solid;background:var(--z-soft)}
+.sslot.act{border-style:solid;background:var(--the);color:var(--on);box-shadow:2px 2px 0 var(--shadow)}
+.sslot.ok{border:2px solid var(--ok);background:var(--ok-soft)}
+.sslot.bad{border:2px solid var(--bad);background:var(--bad-soft);text-decoration:line-through}
+.sslot.z{font-family:var(--display);font-size:.8em}
+.fix{display:inline-block;margin-right:4px;padding:0 6px;border-radius:8px;background:var(--ok);color:var(--on);font-weight:900;font-size:.85em}
+.whys{margin:0;padding-left:18px;display:grid;gap:6px}
+.picker{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;
+  background:var(--card);border-top:2.5px solid var(--stroke);padding-top:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-shadow:0 -4px 0 var(--shadow)}
+.picker .opt{min-width:64px;padding:10px 12px;font-size:18px}
+.pairgrid{display:grid;gap:16px}
+.pitem{display:grid;gap:10px;padding:14px;border:2px dashed var(--stroke);border-radius:14px}
+.pitem .sent{font-size:clamp(19px,4.2vw,23px)}
+.opts.small .opt{padding:9px 6px;font-size:16px}
+@media (max-width:480px){.opts.small{grid-template-columns:repeat(4,1fr)}}
+.opt.chosen{background:var(--z);color:var(--on)}
+.h2{font-size:20px}
+.badge.g-a{background:var(--a)} .badge.g-the{background:var(--the)} .badge.g-zero{background:var(--z)}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tcell{margin:0;padding:14px;border:2px solid var(--stroke);border-radius:16px;background:var(--bg);display:grid;gap:10px;justify-items:start}
+.tcell .badge{font-size:15px;min-width:0;padding:3px 12px}
+.tcell figcaption{display:grid;gap:4px}
+.tcell figcaption b{font-size:17px}
+.tcell figcaption > span{color:var(--muted);font-weight:700;font-size:14px}
+.crowd{width:100%;height:auto;max-width:100%}
+.fig circle,.fig path,.fig rect{fill:var(--card);stroke:var(--stroke);stroke-width:2}
+.fig.dim{opacity:.35}
+.fig.pick-a circle,.fig.pick-a path,.fig.pick-a rect{fill:var(--a);stroke-dasharray:4 3}
+.fig.pick-the circle,.fig.pick-the path,.fig.pick-the rect{fill:var(--the)}
+.fig.pick-z circle,.fig.pick-z path,.fig.pick-z rect{fill:var(--z)}
+.ctext{fill:var(--ink);font:900 14px var(--body);text-anchor:middle}
+.arrow{fill:none;stroke:var(--the);stroke-width:2.5}
+.flow{list-style:none;margin:0;padding:0;display:grid;gap:0;counter-reset:f}
+.flow li{position:relative;display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;padding:14px 0 14px 46px;border-bottom:2px dashed var(--stroke);counter-increment:f}
+.flow li:last-child{border-bottom:0}
+.flow li::before{content:counter(f);position:absolute;left:0;top:14px;width:32px;height:32px;display:grid;place-items:center;border-radius:99px;border:2.5px solid var(--stroke);background:var(--card);font-family:var(--display);font-size:13px}
+.flow li:not(:last-child)::after{content:"ні ↓";position:absolute;left:4px;bottom:-11px;font-size:11px;font-weight:900;color:var(--muted);background:var(--card);padding:0 3px}
+.fq{font-size:16px;font-weight:700;min-width:0}
+.fa{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.yes{font-size:12px;font-weight:900;color:var(--ok)}
+.fx{font-size:13px;color:var(--muted);font-weight:800}
+.fnote{grid-column:1/-1;font-size:13.5px;color:var(--muted);font-weight:700;padding:6px 10px;border-radius:10px;background:var(--the-soft)}
+@media (max-width:520px){.flow li{grid-template-columns:1fr}.fa{justify-content:flex-start}}
+.sounds,.geo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.scol,.gcol{border:2px solid var(--stroke);border-radius:16px;padding:12px;display:grid;gap:6px;background:var(--bg);align-content:start}
+.shead{font-weight:800;font-size:14.5px;margin-bottom:4px}
+.srow2{display:flex;justify-content:space-between;gap:10px;padding:6px 10px;border-radius:10px;background:var(--card);font-weight:800}
+.ss{font-family:var(--display);font-size:12px;color:var(--muted);align-self:center}
+.day{display:grid;grid-template-columns:3fr auto 3fr 2fr 4fr auto;gap:6px;align-items:stretch}
+.dseg,.dpin{border:2px solid var(--stroke);border-radius:12px;padding:10px 8px;display:grid;gap:2px;text-align:center;min-width:0}
+.dseg b,.dpin b{font-size:13.5px;overflow-wrap:anywhere} .dseg span,.dpin span{font-size:12px;color:var(--muted);font-weight:800;font-variant-numeric:tabular-nums}
+.dseg.morning,.dseg.afternoon,.dseg.evening{background:var(--the-soft)}
+.dseg.night,.dpin{background:var(--z-soft)}
+@media (max-width:640px){.day{grid-template-columns:1fr 1fr}}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;font-weight:700}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;border:2px solid var(--stroke);vertical-align:-2px;margin-right:6px}
+.lg-the{background:var(--the-soft)} .lg-z{background:var(--z-soft)}
+.gitem{display:grid;gap:2px;padding:7px 10px;border-radius:10px;background:var(--card);font-weight:700;font-size:14.5px}
+.gk{font-size:12px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+table.cheat{min-width:520px}
+table.cheat td{font-size:14.5px}
+table.cheat td:first-child{white-space:normal}
+.gcell{vertical-align:middle;text-align:center}
+.gcell .badge{font-size:14px;min-width:0;padding:3px 10px;display:inline-block}
+tr.g-a .gcell{background:var(--a-soft)} tr.g-the .gcell{background:var(--the-soft)} tr.g-zero .gcell{background:var(--z-soft)}
+.ts{display:block;color:var(--muted);font-size:13px;font-weight:700}
+.tex{font-weight:700}
+.chipsets{display:grid;gap:14px}
+.illgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.illcard{margin:0;padding:14px;border:2px solid var(--stroke);border-radius:16px;background:var(--bg);display:grid;gap:10px;align-content:start}
+.illone .illcard{max-width:520px}
+.illcard figcaption{display:grid;gap:5px}
+.it{font-family:var(--display);font-size:15px}
+.ie{font-size:16.5px;font-weight:800}
+.iu{color:var(--muted);font-weight:700;font-size:14px}
+.ir{font-size:14px}
+.ill{width:100%;height:auto;max-width:100%;display:block}
+.ill .lab{fill:var(--ink);font:900 13px var(--body);text-anchor:middle}
+.ill .num{fill:var(--muted);font:800 12px var(--display);text-anchor:middle}
+.ill .bubble{fill:var(--a);font:900 20px var(--display);text-anchor:middle} .ill .bubble.ok{fill:var(--the)}
+.fig .tail{fill:none!important}
+.fig .eye{fill:var(--stroke)!important;stroke:none!important}
+.fig.pick-a2 circle,.fig.pick-a2 path,.fig.pick-a2 rect{fill:var(--the)}
+.ill .frame{fill:var(--card);stroke:var(--stroke);stroke-width:2;stroke-dasharray:5 4}
+.ill .sky{fill:var(--the-soft);stroke:var(--stroke);stroke-width:2}
+.ill .sun circle{fill:var(--z);stroke:var(--stroke);stroke-width:2} .ill .sun line{stroke:var(--z);stroke-width:3;stroke-linecap:round}
+.ill .star{fill:var(--card);stroke:var(--stroke);stroke-width:1.5} .ill .star.pick{fill:var(--a)}
+.ill .ground{stroke:var(--stroke);stroke-width:2;stroke-dasharray:3 4}
+.ill .house{fill:var(--the-soft);stroke:var(--stroke);stroke-width:2;stroke-linejoin:round}
+.ill .tag{fill:var(--card);stroke:var(--stroke);stroke-width:2} .ill .tagt{fill:var(--ink);font:900 12px var(--display);text-anchor:middle}
+.ill .person circle,.ill .person rect{fill:var(--card);stroke:var(--stroke);stroke-width:2}
+.ill .leash{fill:none;stroke:var(--a);stroke-width:3;stroke-linecap:round}
+.ill .x{stroke:var(--bad);stroke-width:2.5}
+.ill .strike{fill:var(--muted);font-size:12px}
+.ill .glass{fill:var(--card);stroke:var(--stroke);stroke-width:2;stroke-linejoin:round}
+.ill .water{fill:var(--the);opacity:.55} .ill .wave{fill:none;stroke:var(--the);stroke-width:2}
+.ill .cross rect{fill:var(--bad)} .ill .cross.dim{opacity:.35}
+.ill .arrow{fill:none;stroke:var(--the);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ill .fence{fill:var(--card);stroke:var(--stroke);stroke-width:2}
+.addform>*{min-width:0}
+.empty{padding:24px;text-align:center;color:var(--muted);font-weight:700}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.confetti{display:none}}
+</style>
+
+<div class="wrap" id="app"></div>
+<button class="wmode" id="wordmode" type="button" aria-pressed="false"><b aria-hidden="true">Aa</b><span>Позначати слова</span></button>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+const GROUPS = {
+  a:   {key:'a',   badge:'a / an', title:'Неозначений артикль', sub:'один, якийсь, будь-який'},
+  the: {key:'the', badge:'the',    title:'Означений артикль',   sub:'той самий, відомий, єдиний'},
+  zero:{key:'zero',badge:'Ø',      title:'Нульовий артикль',    sub:'коли артикль не потрібен'}
+};
+
+// Examples: [a] / [an] / [the] / [-] mark the article
+const RULES = [
+ {id:'an1',g:'a',t:'Перша згадка',s:'Предмет згадується вперше, ще невідомо, який саме.',
+  e:'Коли про щось говоримо вперше в розмові чи контексті, ставимо a/an. Співрозмовник ще не знає, про який саме предмет ідеться.',
+  x:[['She bought [a] new book.','Ще невідомо, яку саме книгу.'],['I saw [a] dog in the park.','Якогось собаку, вперше про нього кажемо.']]},
+ {id:'an2',g:'a',t:'Будь-який, неважливо який',s:'Узагальнено: конкретика не має значення.',
+  e:'Коли йдеться про когось чи щось узагальнено і неважливо, який саме предмет. Підійде будь-який.',
+  x:[['Should we bring [a] gift?','Мається на увазі будь-який подарунок.'],['Can I borrow [a] pen?','Будь-яку ручку, аби писала.']]},
+ {id:'an3',g:'a',t:'Означає «один»',s:'Артикль замінює число one.',
+  e:'A/an походить від числівника one, тому може означати просто «один».',
+  x:[['They will come in [a] day.','Через один день.'],['I go to the gym three times [a] week.','Тричі на (один) тиждень.']]},
+ {id:'an4',g:'a',t:'Професії',s:'Коли кажемо, ким людина працює.',
+  e:'Перед назвою професії ставимо a/an. В українській ми нічого не додаємо, тому це часта помилка.',
+  x:[['She is [a] hairdresser.','Вона перукарка.'],['My brother is [an] engineer.','an, бо engineer починається з голосного звука.']]},
+ {id:'an5',g:'a',t:'Стійкі вирази',s:'a few, a little, in a hurry, for a long time…',
+  e:'У деяких стійких словосполученнях a/an просто треба запам\'ятати як частину фрази.',
+  x:[['She does everything in [a] hurry.','Поспіхом.'],['Let\'s go for [a] walk.','Піти на прогулянку.']],
+  chips:['a few','a little','for a long time','in a hurry','to go for a walk','to have a good day','to have a good time']},
+ {id:'an6',g:'a',t:'Ніколи з множиною і незлічуваними',s:'A/an = «один», тому з ними він неможливий.',
+  e:'Ми ніколи не ставимо a/an з іменниками в множині та з незлічуваними іменниками, бо цей артикль вказує на однину й означає «один».',
+  x:[['I need [-] information.','Не «an information».'],['They sell [-] apples.','Множина, тому без a.']],table:true},
+
+ {id:'th1',g:'the',t:'Відомо, про що мова',s:'Уже згадували або зрозуміло з ситуації.',
+  e:'The ставимо, коли співрозмовник знає, про який саме предмет ідеться: його вже згадували, він відомий обом або все ясно з ситуації.',
+  x:[['This is a new student. [The] student is from France.','Спочатку a (вперше), потім the (вже знаємо, хто).'],['Look at [the] cat, it\'s sitting in your bag!','Обидва бачать цього кота.']]},
+ {id:'th2',g:'the',t:'Унікальне, природа, частини доби',s:'the sun, the moon, the weather, in the morning.',
+  e:'Перед тим, що є єдиним (the moon, the sun, the world), перед словами про світ навколо нас, природу й погоду (the rain, the weather, the night, the seaside) і перед частинами доби (in the morning, in the afternoon).',
+  x:[['[The] sun is shining today.',''],['We\'re going to [the] seaside.',''],['We always have a shower in [the] morning.','']]},
+ {id:'th3',g:'the',t:'Групи людей і родини',s:'Народ, родина, група зі спільною ознакою.',
+  e:'Коли йдеться про групу, пов\'язану спільною ознакою: людей (родина, мешканці країни), предмети чи тварин.',
+  x:[['[The] British drink a lot of tea.','Британці як народ.'],['[The] Thompsons live in this house.','Родина Томпсонів.']]},
+ {id:'th4',g:'the',t:'Найвищий ступінь і порядкові',s:'the biggest, the best, the first floor.',
+  e:'Якщо перед іменником стоїть прикметник у найвищому ступені (the biggest city) або порядковий числівник (the first floor).',
+  x:[['It\'s [the] best film I have ever seen.',''],['We live on [the] first floor.','']]},
+ {id:'th5',g:'the',t:'Деякі географічні назви',s:'Річки, моря, океани, гори, пустелі, частини світу.',
+  e:'Перед назвами річок, морів і океанів (the Thames), гірських хребтів (the Alps), частин світу (in the West), деяких країн (the United Kingdom) та пустель.',
+  x:[['[The] Thames flows through London.','Річка.'],['She moved to [the] United Kingdom.','Назва країни з Kingdom, States тощо.']]},
+
+ {id:'z1',g:'zero',t:'Є присвійний чи вказівний займенник',s:'my, your, his, her, its, this, that.',
+  e:'Жоден артикль не потрібен, якщо перед іменником уже стоїть слово, що показує належність або вказує на предмет: my, your, his, her, its, this, that.',
+  x:[['[-] My bag is blue.','Не «the my bag».'],['I love [-] this song.','']]},
+ {id:'z2',g:'zero',t:'Загальне поняття',s:'Множина чи незлічуване без конкретики.',
+  e:'Артикль не ставиться, якщо іменник у множині чи незлічуваний іменник означає загальне, родове поняття без конкретики.',
+  x:[['[-] Cats are the gentlest animals in the world.','Коти загалом, усі коти.'],['I like [-] music.','Музику взагалі.']]},
+ {id:'z3',g:'zero',t:'Дні, місяці, свята',s:'on Monday, in July, at Christmas.',
+  e:'З назвами днів тижня, місяців і свят артикль не потрібен.',x:[['See you on [-] Friday!',''],['My birthday is in [-] July.','']]},
+ {id:'z4',g:'zero',t:'Кольори, страви, напої',s:'red, breakfast, tea.',
+  e:'Кольори, прийоми їжі, страви та напої в загальному значенні вживаються без артикля.',x:[['[-] Red is my favourite colour.',''],['We have [-] dinner at seven.','']]},
+ {id:'z5',g:'zero',t:'Мови',s:'English, Ukrainian, Irish.',
+  e:'Назви мов вживаються без артикля.',x:[['She speaks [-] Ukrainian.',''],['[-] English is very useful.','']]},
+ {id:'z6',g:'zero',t:'Хвороби',s:'Без артикля, але є винятки.',
+  e:'Назви хвороб зазвичай без артикля. Винятки: (the) flu — грип, (the) measles — кір, (the) mumps — свинка, a cold — застуда.',
+  x:[['Smoking can cause [-] cancer.',''],['I\'ve got [a] cold.','Виняток: застуда з a.']],chips:['(the) flu','(the) measles','(the) mumps','a cold']},
+ {id:'z7',g:'zero',t:'Спорт і активність',s:'football, golf, yoga.',
+  e:'Види спорту та фізичної активності вживаються без артикля.',x:[['He plays [-] golf.',''],['I do [-] yoga every morning.','']]},
+ {id:'z8',g:'zero',t:'Власні імена',s:'Імена людей і назви.',
+  e:'Власні назви вживаються без артикля, крім випадків, коли артикль входить до складу назви.',x:[['[-] Anna lives in Cork.',''],['I met [-] Mr Brown yesterday.','']]},
+ {id:'z9',g:'zero',t:'Інші географічні назви',s:'Більшість країн, міст, континентів.',
+  e:'Географічні назви без артикля, крім тих, що ми розглянули в правилах про the (річки, моря, гори, пустелі тощо).',x:[['[-] Ireland is very green.',''],['We flew to [-] Paris.','']]},
+ {id:'z10',g:'zero',t:'Стійкі вирази часу',s:'at night, all day, last week, tomorrow.',
+  e:'У цих виразах часу артикль не ставиться. Зверни увагу: in the morning, але at night.',
+  x:[['I work at [-] night.',''],['See you [-] tomorrow!','']],
+  chips:['at night','at noon','at midnight','all day','all night','all year','all month','all week','every month','every year','last night','last day','last week','last month','last year','yesterday','today','tomorrow']}
+];
+const RM = Object.fromEntries(RULES.map(r=>[r.id,r]));
+
+// Questions: [rule, sentence, answer('a'|'an'|'the'|'-'), note]
+const QRAW = [
+ ['an1','I saw ___ dog in the park this morning.','a','Собаку згадуємо вперше.'],
+ ['an1','My sister has ___ idea for a new business.','an','Вперше згадуємо. Idea починається з голосного звука, тому an.'],
+ ['an1','There is ___ letter for you on the table.','a','Лист згадується вперше.'],
+ ['an2','Can I borrow ___ pen, please?','a','Будь-яка ручка підійде.'],
+ ['an2','Take ___ umbrella, it might rain.','an','Будь-яку парасольку. Umbrella з голосного звука.'],
+ ['an2','Let\'s order ___ taxi.','a','Неважливо, яке саме таксі.'],
+ ['an3','I drink coffee twice ___ day.','a','Двічі на (один) день.'],
+ ['an3','We\'ll be back in ___ hour.','an','Одна година. У hour «h» не читається, тому an.'],
+ ['an3','The shop is open six days ___ week.','a','Шість днів на (один) тиждень.'],
+ ['an4','My brother is ___ engineer.','an','Професія. Engineer з голосного звука.'],
+ ['an4','She wants to be ___ doctor.','a','Професія.'],
+ ['an4','He works as ___ waiter in a hotel.','a','Професія.'],
+ ['an5','Wait ___ little, I\'m almost ready.','a','Стійкий вираз a little.'],
+ ['an5','Let\'s go for ___ walk after dinner.','a','Стійкий вираз to go for a walk.'],
+ ['an5','I haven\'t seen him for ___ long time.','a','Стійкий вираз for a long time.'],
+ ['an5','Have ___ good day!','a','Стійкий вираз to have a good day.'],
+ ['an6','I need ___ information about the course.','-','Information незлічуване, a/an неможливий.'],
+ ['an6','There is ___ sand in my shoes.','-','Sand незлічуване.'],
+ ['an6','They sell ___ fresh apples at the market.','-','Apples у множині.'],
+ ['an6','We had ___ snow last winter.','-','Snow незлічуване (погодне явище).'],
+ ['th1','I bought a shirt and a jacket. ___ jacket was expensive.','the','Піджак уже згадували.'],
+ ['th1','Can you close ___ door, please?','the','З ситуації зрозуміло, які двері.'],
+ ['th1','Where are ___ keys? I left them right here.','the','Обидва знають, про які ключі мова.'],
+ ['th2','___ sun is very bright today.','the','Сонце одне.'],
+ ['th2','We usually go running in ___ morning.','the','Частина доби: in the morning.'],
+ ['th2','What\'s ___ weather like in Galway?','the','Погода: the weather.'],
+ ['th2','You can see ___ moon tonight.','the','Місяць один.'],
+ ['th3','___ Irish love music and dancing.','the','Ірландці як народ.'],
+ ['th3','___ Smiths have two dogs.','the','Родина Смітів.'],
+ ['th3','___ French are famous for their cheese.','the','Французи як народ.'],
+ ['th4','Everest is ___ highest mountain in the world.','the','Найвищий ступінь: the highest.'],
+ ['th4','Our flat is on ___ second floor.','the','Порядковий числівник: the second.'],
+ ['th4','This is ___ best pizza I\'ve ever eaten.','the','Найвищий ступінь: the best.'],
+ ['th5','___ Shannon is the longest river in Ireland.','the','Назва річки.'],
+ ['th5','We went skiing in ___ Alps.','the','Гірський хребет.'],
+ ['th5','My cousin lives in ___ United States.','the','Країна з States у назві.'],
+ ['th5','___ Sahara is a huge desert.','the','Назва пустелі.'],
+ ['z1','___ My car is parked outside.','-','Є my, артикль не потрібен.'],
+ ['z1','Is ___ this seat free?','-','Є this, артикль не потрібен.'],
+ ['z1','She lives with ___ her parents.','-','Є her, артикль не потрібен.'],
+ ['z2','___ Dogs are very loyal animals.','-','Собаки загалом.'],
+ ['z2','I really love ___ music.','-','Музика взагалі.'],
+ ['z2','___ Water boils at 100 degrees.','-','Вода взагалі, загальне поняття.'],
+ ['z3','See you on ___ Monday!','-','День тижня.'],
+ ['z3','My birthday is in ___ May.','-','Місяць.'],
+ ['z3','We visit my grandparents at ___ Christmas.','-','Свято.'],
+ ['z4','My favourite colour is ___ green.','-','Колір.'],
+ ['z4','What time do you have ___ breakfast?','-','Прийом їжі.'],
+ ['z4','I prefer ___ tea to coffee.','-','Напій у загальному значенні.'],
+ ['z5','She speaks ___ Ukrainian and English.','-','Мова.'],
+ ['z5','___ German grammar is quite hard.','-','Мова.'],
+ ['z6','Smoking can cause ___ cancer.','-','Хвороба без артикля.'],
+ ['z6','I think I\'ve caught ___ cold.','a','Виняток: a cold — застуда.'],
+ ['z7','We play ___ football on Saturdays.','-','Вид спорту.'],
+ ['z7','She does ___ yoga every morning.','-','Фізична активність.'],
+ ['z8','___ Olena works in a café in Cork.','-','Ім\'я людини.'],
+ ['z8','I met ___ John at the party.','-','Ім\'я людини.'],
+ ['z9','They moved to ___ Ireland last year.','-','Більшість країн без артикля.'],
+ ['z9','___ Dublin is a busy city.','-','Місто.'],
+ ['z9','We spent a week in ___ Spain.','-','Країна.'],
+ ['z10','I can\'t sleep at ___ night.','-','Вираз at night (але in the morning).'],
+ ['z10','We met ___ last week.','-','Вираз last week.'],
+ ['z10','I\'ll call you ___ tomorrow.','-','Tomorrow без артикля.'],
+ ['z10','Let\'s have lunch at ___ noon.','-','Вираз at noon.']
+];
+const TR = ['Я бачила собаку в парку сьогодні вранці.','У моєї сестри є ідея для нового бізнесу.','На столі для тебе лист.','Можна позичити ручку?','Візьми парасольку, може піти дощ.','Давай замовимо таксі.','Я п\'ю каву двічі на день.','Ми повернемося за годину.','Магазин працює шість днів на тиждень.','Мій брат інженер.','Вона хоче стати лікаркою.','Він працює офіціантом у готелі.','Зачекай трохи, я майже готова.','Ходімо на прогулянку після вечері.','Я давно його не бачила.','Гарного дня!','Мені потрібна інформація про курс.','У мене в черевиках пісок.','На ринку продають свіжі яблука.','Минулої зими в нас був сніг.','Я купила сорочку й піджак. Піджак був дорогий.','Зачини, будь ласка, двері.','Де ключі? Я залишила їх просто тут.','Сьогодні сонце дуже яскраве.','Ми зазвичай бігаємо вранці.','Яка погода в Голвеї?','Сьогодні ввечері можна побачити місяць.','Ірландці люблять музику й танці.','У Смітів два собаки.','Французи славляться своїм сиром.','Еверест — найвища гора у світі.','Наша квартира на другому поверсі.','Це найкраща піца, яку я колись їла.','Шеннон — найдовша річка в Ірландії.','Ми каталися на лижах в Альпах.','Мій двоюрідний брат живе в США.','Сахара — величезна пустеля.','Моя машина стоїть надворі.','Це місце вільне?','Вона живе з батьками.','Собаки — дуже віддані тварини.','Я дуже люблю музику.','Вода кипить за 100 градусів.','Побачимось у понеділок!','Мій день народження в травні.','Ми їздимо до бабусі й дідуся на Різдво.','Мій улюблений колір — зелений.','О котрій ти снідаєш?','Я віддаю перевагу чаю, а не каві.','Вона говорить українською та англійською.','Німецька граматика досить складна.','Куріння може спричинити рак.','Здається, я застудилася.','Ми граємо у футбол по суботах.','Вона щоранку займається йогою.','Олена працює в кафе в Корку.','Я зустріла Джона на вечірці.','Вони переїхали до Ірландії минулого року.','Дублін — жваве місто.','Ми провели тиждень в Іспанії.','Я не можу спати вночі.','Ми зустрілися минулого тижня.','Я подзвоню тобі завтра.','Давай пообідаємо опівдні.'];
+const TRX = {
+ an1:['Вона купила нову книжку.','Я бачила собаку в парку.'], an2:['Нам взяти подарунок?','Можна позичити ручку?'],
+ an3:['Вони приїдуть через день.','Я ходжу в спортзал тричі на тиждень.'], an4:['Вона перукарка.','Мій брат інженер.'],
+ an5:['Вона все робить поспіхом.','Ходімо на прогулянку.'], an6:['Мені потрібна інформація.','Вони продають яблука.'],
+ th1:['Це новий студент. Студент із Франції.','Подивись на кота, він сидить у твоїй сумці!'],
+ th2:['Сьогодні світить сонце.','Ми їдемо на море.','Ми завжди приймаємо душ уранці.'],
+ th3:['Британці п\'ють багато чаю.','Томпсони живуть у цьому будинку.'],
+ th4:['Це найкращий фільм, який я колись бачила.','Ми живемо на першому поверсі.'],
+ th5:['Темза тече через Лондон.','Вона переїхала до Великої Британії.'],
+ z1:['Моя сумка синя.','Я обожнюю цю пісню.'], z2:['Коти — найлагідніші тварини у світі.','Я люблю музику.'],
+ z3:['Побачимось у п\'ятницю!','Мій день народження в липні.'], z4:['Червоний — мій улюблений колір.','Ми вечеряємо о сьомій.'],
+ z5:['Вона говорить українською.','Англійська дуже корисна.'], z6:['Куріння може спричинити рак.','У мене застуда.'],
+ z7:['Він грає в гольф.','Я займаюся йогою щоранку.'], z8:['Анна живе в Корку.','Я вчора зустріла містера Брауна.'],
+ z9:['Ірландія дуже зелена.','Ми полетіли до Парижа.'], z10:['Я працюю вночі.','Побачимось завтра!']
+};
+const QEXTRA = [
+ ['an1','Look, there\'s ___ new café on our street.','a','Кафе згадуємо вперше.','Дивись, на нашій вулиці нове кафе.'],
+ ['an1','I got ___ message from the landlord today.','a','Повідомлення згадується вперше.','Я сьогодні отримала повідомлення від орендодавця.'],
+ ['an1','We watched ___ interesting film last night.','an','Фільм згадуємо вперше. Interesting з голосного звука.','Учора ввечері ми дивилися цікавий фільм.'],
+ ['an1','Someone left ___ umbrella on the bus.','an','Парасолька згадується вперше, umbrella з голосного звука.','Хтось залишив парасольку в автобусі.'],
+ ['an2','I\'m looking for ___ flat near the city centre.','a','Будь-яка квартира, конкретної ще немає.','Я шукаю квартиру біля центру міста.'],
+ ['an2','Do you have ___ charger I can use?','a','Будь-яка зарядка підійде.','У тебе є зарядка, якою я можу скористатися?'],
+ ['an2','I need ___ new phone.','a','Якийсь новий телефон, неважливо який.','Мені потрібен новий телефон.'],
+ ['an2','Is there ___ ATM near here?','an','Будь-який банкомат. ATM читається з голосного звука «ей».','Тут поблизу є банкомат?'],
+ ['an3','I pay rent once ___ month.','a','Раз на (один) місяць.','Я плачу оренду раз на місяць.'],
+ ['an3','Coffee here costs four euro ___ cup.','a','За (одну) чашку.','Кава тут коштує чотири євро за чашку.'],
+ ['an3','Can you wait ___ second?','a','Одну секунду.','Можеш зачекати секунду?'],
+ ['an3','I\'ve lived in Ireland for ___ year.','a','Один рік.','Я живу в Ірландії рік.'],
+ ['an4','My flatmate is ___ nurse.','a','Професія.','Моя сусідка по квартирі — медсестра.'],
+ ['an4','Her husband is ___ electrician.','an','Професія. Electrician з голосного звука.','Її чоловік електрик.'],
+ ['an4','I\'d like to work as ___ accountant.','an','Професія. Accountant з голосного звука.','Я хотіла б працювати бухгалтеркою.'],
+ ['an4','Is your dad ___ bus driver?','a','Професія.','Твій тато водій автобуса?'],
+ ['an5','I\'m in ___ hurry, can we talk later?','a','Стійкий вираз in a hurry.','Я поспішаю, можемо поговорити пізніше?'],
+ ['an5','Can I ask you ___ few questions?','a','Стійкий вираз a few.','Можна поставити тобі кілька запитань?'],
+ ['an5','Add ___ little salt to the soup.','a','Стійкий вираз a little.','Додай трохи солі в суп.'],
+ ['an5','We had ___ great time at the party.','a','Стійкий вираз to have a good (great) time.','Ми чудово провели час на вечірці.'],
+ ['an6','Can you give me ___ advice about renting?','-','Advice незлічуване, a/an неможливий.','Можеш дати мені пораду щодо оренди?'],
+ ['an6','I bought ___ new shoes yesterday.','-','Shoes у множині.','Я вчора купила нові черевики.'],
+ ['an6','There is ___ milk in the fridge.','-','Milk незлічуване.','У холодильнику є молоко.'],
+ ['an6','We need ___ good weather for the trip.','-','Weather незлічуване.','Нам потрібна гарна погода для поїздки.'],
+ ['th1','I ordered a pizza and a salad. ___ pizza was cold.','the','Піцу вже згадували.','Я замовила піцу й салат. Піца була холодна.'],
+ ['th1','Can you turn off ___ light, please?','the','З ситуації зрозуміло, яке світло.','Вимкни, будь ласка, світло.'],
+ ['th1','Have you fed ___ dog?','the','Обидва знають, про якого собаку мова.','Ти погодувала собаку?'],
+ ['th1','How was ___ meeting this morning?','the','Обидва знають, про яку зустріч мова.','Як пройшла зустріч сьогодні вранці?'],
+ ['th2','Let\'s go to ___ beach this weekend.','the','Природа навколо нас: the beach, the seaside.','Ходімо на пляж на вихідних.'],
+ ['th2','I study best in ___ evening.','the','Частина доби: in the evening.','Мені найкраще вчиться ввечері.'],
+ ['th2','The kids are playing in ___ rain.','the','Погода: the rain.','Діти граються під дощем.'],
+ ['th2','It\'s the most beautiful place in ___ world.','the','Світ один.','Це найкрасивіше місце у світі.'],
+ ['th3','___ Germans are known for being on time.','the','Німці як народ.','Німці відомі своєю пунктуальністю.'],
+ ['th3','___ Browns are coming for dinner.','the','Родина Браунів.','Брауни прийдуть на вечерю.'],
+ ['th3','___ Spanish usually eat dinner late.','the','Іспанці як народ.','Іспанці зазвичай вечеряють пізно.'],
+ ['th3','We\'re visiting ___ O\'Connors on Sunday.','the','Родина О\'Конорів.','У неділю ми йдемо в гості до О\'Конорів.'],
+ ['th4','This is ___ cheapest supermarket in town.','the','Найвищий ступінь: the cheapest.','Це найдешевший супермаркет у місті.'],
+ ['th4','Take ___ first turn on the left.','the','Порядковий числівник: the first.','Поверни на першому повороті ліворуч.'],
+ ['th4','Friday is ___ busiest day at work.','the','Найвищий ступінь: the busiest.','П\'ятниця — найнапруженіший день на роботі.'],
+ ['th4','She was ___ last person to leave the office.','the','Порядкове слово: the last.','Вона пішла з офісу останньою.'],
+ ['th5','We took the ferry across ___ Irish Sea.','the','Назва моря.','Ми переправилися поромом через Ірландське море.'],
+ ['th5','___ Dnipro flows through Kyiv.','the','Назва річки.','Дніпро тече через Київ.'],
+ ['th5','They live in ___ Netherlands.','the','Деякі країни: the Netherlands.','Вони живуть у Нідерландах.'],
+ ['th5','I\'d love to go hiking in ___ Carpathians.','the','Гірський хребет.','Я б дуже хотіла піти в похід Карпатами.'],
+ ['z1','Have you seen ___ my glasses?','-','Є my, артикль не потрібен.','Ти не бачила моїх окулярів?'],
+ ['z1','Is ___ that your bike outside?','-','Є that, артикль не потрібен.','Це твій велосипед надворі?'],
+ ['z1','I love ___ your new haircut!','-','Є your, артикль не потрібен.','Мені дуже подобається твоя нова стрижка!'],
+ ['z1','___ Our bus is late again.','-','Є our, артикль не потрібен.','Наш автобус знову запізнюється.'],
+ ['z2','___ Rent in Dublin is very expensive.','-','Оренда загалом.','Оренда в Дубліні дуже дорога.'],
+ ['z2','I don\'t eat ___ meat.','-','М\'ясо взагалі.','Я не їм м\'яса.'],
+ ['z2','___ Children need a lot of sleep.','-','Діти загалом.','Дітям потрібно багато сну.'],
+ ['z2','Money can\'t buy ___ happiness.','-','Щастя як загальне поняття.','Гроші не можуть купити щастя.'],
+ ['z3','The shop is closed on ___ Sundays.','-','Дні тижня.','Магазин зачинений по неділях.'],
+ ['z3','We\'re going home for ___ Easter.','-','Свято.','Ми їдемо додому на Великдень.'],
+ ['z3','It often rains in ___ November.','-','Місяць.','У листопаді часто дощить.'],
+ ['z4','Let\'s meet for ___ lunch tomorrow.','-','Прийом їжі.','Зустріньмося завтра на обід.'],
+ ['z4','Do you prefer ___ blue or green?','-','Кольори.','Тобі більше подобається синій чи зелений?'],
+ ['z4','What did you have for ___ dinner?','-','Прийом їжі.','Що ти їла на вечерю?'],
+ ['z4','She doesn\'t drink ___ milk.','-','Напій у загальному значенні.','Вона не п\'є молока.'],
+ ['z5','I\'m learning ___ English at evening classes.','-','Мова.','Я вчу англійську на вечірніх курсах.'],
+ ['z5','Do you speak ___ Irish?','-','Мова.','Ти говориш ірландською?'],
+ ['z5','My son is better at ___ English than me.','-','Мова.','Мій син знає англійську краще за мене.'],
+ ['z6','He\'s at home with ___ bad cold.','a','Виняток: a cold — застуда.','Він удома з сильною застудою.'],
+ ['z6','___ Diabetes is becoming more common.','-','Хвороба без артикля.','Діабет стає дедалі поширенішим.'],
+ ['z7','Do you want to play ___ tennis on Saturday?','-','Вид спорту.','Хочеш пограти в теніс у суботу?'],
+ ['z7','My kids love ___ basketball.','-','Вид спорту.','Мої діти обожнюють баскетбол.'],
+ ['z7','I play ___ volleyball with friends on Fridays.','-','Вид спорту.','По п\'ятницях я граю у волейбол із друзями.'],
+ ['z8','Say hi to ___ Maria from me!','-','Ім\'я людини.','Передай від мене привіт Марії!'],
+ ['z8','___ Dr Murphy will see you now.','-','Ім\'я з титулом теж без артикля.','Доктор Мерфі зараз вас прийме.'],
+ ['z8','I\'m reading a book by ___ Sally Rooney.','-','Ім\'я людини.','Я читаю книжку Саллі Руні.'],
+ ['z9','My parents still live in ___ Ukraine.','-','Країна.','Мої батьки досі живуть в Україні.'],
+ ['z9','We\'re going to ___ Galway for the weekend.','-','Місто.','Ми їдемо в Голвей на вихідні.'],
+ ['z9','Is ___ Cork far from Dublin?','-','Місто.','Корк далеко від Дубліна?'],
+ ['z9','___ Europe has many beautiful cities.','-','Континент.','У Європі багато гарних міст.'],
+ ['z10','I was at work all ___ day.','-','Вираз all day.','Я була на роботі весь день.'],
+ ['z10','I didn\'t sleep well ___ last night.','-','Вираз last night.','Я погано спала минулої ночі.'],
+ ['z10','Are you free ___ today?','-','Today без артикля.','Ти сьогодні вільна?'],
+ ['z10','We go to the gym every ___ week.','-','Вираз every week.','Ми ходимо в спортзал щотижня.']
+];
+const Q = QRAW.concat(QEXTRA).map((q,i)=>({id:i,r:q[0],s:q[1],a:q[2],n:q[3],tr:q[4]||TR[i]||''}));
+
+const MODES={
+ choose:{t:'Встав артикль',d:'Обери a, an, the або Ø для пропуску.',c:'a'},
+ spot:{t:'Знайди помилку',d:'У реченні є помилка з артиклем. Натисни на неї.',c:'the'},
+ why:{t:'Чому саме так?',d:'Артикль уже стоїть. Обери правило, яке тут працює.',c:'zero'}
+};
+// storage
+const KEY='artykli-v1';
+let store={ok:{},bad:{},best:0,words:{},mine:[],errs:{},tries:{},mode:'choose'};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s) store=Object.assign(store,s);}catch(e){}
+if(!store.words) store.words={}; if(!store.errs) store.errs={}; if(!store.tries) store.tries={}; if(!MODES[store.mode]) store.mode='choose'; if(!Array.isArray(store.mine)) store.mine=[];
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+
+const app=document.getElementById('app');
+let view={name:'home'}; let round=null; let streak=0; let wordMode=false;
+
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const kcls=v=>v==='-'?'k-z':(v==='the'?'k-the':'k-a');
+const wkey=w=>w.toLowerCase().replace(/^'+|'+$/g,'');
+function wordify(text){
+  return text.split(/([A-Za-zÀ-ÿ']+)/).map((p,i)=>{
+    if(i%2===0) return esc(p);
+    const k=wkey(p); if(!k) return esc(p);
+    return `<span class="w${store.words[k]?' marked':''}" data-w="${esc(k)}">${esc(p)}</span>`;
+  }).join('');
+}
+function rich(str){
+  return str.split(/(\[(?:a|an|the|The|-)\])/).map((p,i)=>{
+    if(i%2===0) return wordify(p);
+    const v=p.slice(1,-1);
+    return v==='-'?'<span class="art k-z" title="без артикля">Ø</span>':`<span class="art ${kcls(v.toLowerCase())}">${v}</span>`;
+  }).join('');
+}
+const plainEx=s=>s.replace(/\[-\]\s*/g,'').replace(/\[(\w+)\]/g,'$1');
+function plainQ(q){const [b,af]=q.s.split('___');const start=b.trim()==='';const v=q.a==='-'?'':(start?cap(q.a):q.a);return (b+v+af).replace(/\s+/g,' ').trim()}
+function mineQs(){return store.mine.map(m=>({id:m.id,r:m.r,s:m.s,a:m.a,n:'Твій власний приклад.',tr:m.tr||'',mine:true}))}
+function Qall(){return Q.concat(mineQs())}
+function rulePct(id){const qs=Qall().filter(q=>q.r===id);return [qs.filter(q=>store.ok[q.id]).length,qs.length]}
+function badCount(){const ids=new Set(Qall().map(q=>String(q.id)));return Object.keys(store.bad).filter(k=>ids.has(k)).length}
+function wordCount(){return Object.keys(store.words).length}
+
+function sentence(q,val,cls){
+  const [b,af]=q.s.split('___'); const start=b.trim()==='';
+  let inner='?';
+  if(val!==undefined){inner = val==='-'?'Ø':(start?cap(val):val)}
+  const z = val==='-'?' z':'';
+  return `${wordify(b)}<span class="slot ${cls||''}${z}">${inner}</span>${wordify(af||'')}`;
+}
+function trBlock(tr){return tr?`<button class="trbtn" data-act="tr" aria-expanded="false">Переклад</button><span class="tr" hidden>${esc(tr)}</span>`:''}
+
+/* ---------- views ---------- */
+function home(){
+  const all=Qall(), done=all.filter(q=>store.ok[q.id]).length, pct=Math.round(done/all.length*100), bc=badCount(), wc=wordCount();
+  let h=`<header class="hero">
+    <div class="tokens" aria-hidden="true"><span class="tok">a</span><span class="tok">an</span><span class="tok">the</span><span class="tok">Ø</span></div>
+    <h1>Тренажер артиклів</h1>
+    <p class="lead">Обери правило, переглянь приклади й потренуйся. Після кожної відповіді побачиш, яке саме правило тут працює.</p>
+    <div class="statrow"><div class="bar" aria-label="Загальний прогрес"><i style="width:${pct}%"></i></div><span class="meta">${done} з ${all.length} речень · рекорд серії ${store.best}</span></div>
+  </header>
+  <section class="panel sticker"><div class="phead"><span class="label">Тренування</span><h2>Обери вид вправи</h2></div>
+    <div class="modes" role="radiogroup" aria-label="Вид вправи">${Object.entries(MODES).map(([k,m])=>`<button class="mode m-${m.c}${store.mode===k?' sel':''}" role="radio" aria-checked="${store.mode===k}" data-act="mode" data-m="${k}"><b>${m.t}</b><span>${m.d}</span></button>`).join('')}</div>
+    <div class="actions">
+      <button class="btn primary" data-act="play" data-pool="all">Усі правила</button>
+      <button class="btn" data-act="play" data-pool="bad" ${bc?'':'disabled'}>Мої помилки · ${bc}</button>
+      <button class="btn sun" data-act="words">Мої слова · ${wc}</button>
+    </div>
+    <p class="hint" style="text-align:left">Щоб тренувати одну тему чи правило, натисни «Уся тема» або відкрий правило нижче. Буде обраний вид вправи.</p>
+  </section>
+  <div class="extras">
+    <button class="xcard sticker" data-act="stories"><span class="badge" style="background:var(--the)">текст</span><b>Міні-історії</b><span>Короткі тексти з життя з кількома пропусками. Артиклі в реальному контексті.</span></button>
+    <button class="xcard sticker" data-act="cheat"><span class="badge" style="background:var(--z)">схема</span><b>Шпаргалка</b><span>Усі правила в таблиці, схема вибору артикля й наочні картинки.</span></button>
+    <button class="xcard sticker" data-act="pairs"><span class="badge" style="background:var(--a)">vs</span><b>Пари-пастки</b><span>Два схожі речення з різними відповідями: in the morning чи at night?</span></button>
+  </div>
+  ${statsPanel()}
+  <div class="tip sticker"><b class="k">a чи an?</b><p>Дивимось на <b>звук</b>, а не на букву: <b>an</b> apple, <b>an</b> hour (h не читається), але <b>a</b> university (звук «ю»).</p></div>
+  <div class="tip sticker" style="background:var(--the-soft)"><b class="k" style="background:var(--the)">слова</b><p>Не знаєш слово? Увімкни кнопку <b>«Позначати слова»</b> внизу екрана й натисни на слово в будь-якому прикладі. Воно потрапить у «Мої слова».</p></div>`;
+  for(const g of Object.values(GROUPS)){
+    const rs=RULES.filter(r=>r.g===g.key);
+    h+=`<section class="topic g-${g.key}"><div class="topic-head"><span class="badge">${g.badge}</span><div><h2>${g.title}</h2><div class="sub">${g.sub}</div></div><span class="spacer"></span>
+      <button class="btn" data-act="play" data-pool="g:${g.key}">Уся тема</button></div><div class="cards">`;
+    rs.forEach((r,i)=>{const [d,t]=rulePct(r.id);
+      h+=`<button class="rcard sticker" data-act="rule" data-id="${r.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${r.t}</h3><p>${r.s}</p>
+      <div class="foot"><div class="bar"><i style="width:${d/t*100}%"></i></div><span class="meta">${d}/${t}</span></div></button>`});
+    h+=`</div>`;
+    if(g.key==='a') h+=`<div class="unc sticker"><div class="unc-head"><span class="badge" style="font-size:16px">без a / an</span><div><h3>Незлічувані іменники</h3><p>З ними a/an ніколи не ставимо, як і з множиною. Наприклад: <b>water</b>, не <s>a water</s>.</p></div></div>${uncTable()}</div>`;
+    h+=`</section>`;
+  }
+  return h;
+}
+
+function statsPanel(){
+  const rows=RULES.map(r=>({r,e:store.errs[r.id]||0,t:store.tries[r.id]||0})).filter(x=>x.e>0).sort((a,b)=>b.e-a.e||(b.e/b.t)-(a.e/a.t)).slice(0,5);
+  const totT=Object.values(store.tries).reduce((a,b)=>a+b,0), totE=Object.values(store.errs).reduce((a,b)=>a+b,0);
+  let h=`<section class="panel sticker"><div class="phead"><span class="label">Статистика</span><h2>Де найчастіше помилки</h2>
+    <p class="meta">${totT?`Усього відповідей: ${totT} · правильних ${Math.round((totT-totE)/totT*100)}%`:'Пройди кілька вправ, і тут з\'явиться твоя статистика.'}</p></div>`;
+  if(rows.length){const mx=rows[0].e; h+=`<ol class="stats">`;
+    rows.forEach(x=>{h+=`<li><div class="srow"><span class="minichip g-${x.r.g}">${GROUPS[x.r.g].badge}</span><button class="link" data-act="rule" data-id="${x.r.id}">${x.r.t}</button></div>
+      <div class="sline"><div class="sbar"><i class="g-${x.r.g}" style="width:${x.e/mx*100}%"></i></div><span class="meta">${x.e} з ${x.t}</span>
+      <button class="btn small" data-act="play" data-pool="r:${x.r.id}">Тренувати</button></div></li>`});
+    h+=`</ol>`}
+  else if(totT) h+=`<p class="empty">Помилок поки немає. Так тримати!</p>`;
+  return h+`</section>`;
+}
+function uncTable(){return `<div class="tablewrap"><table><thead><tr><th>Група</th><th>Приклади</th></tr></thead><tbody>
+    ${[['Рідини та гази','water, coffee, milk, oxygen, air'],['Тверді та зернисті речовини','wood, metal, cheese, rice, sand'],['Сила та енергія','electricity, sunshine, radiation, heat, magnetism'],['Галузі знань','chemistry, English, economics, science, math'],['Інформація та абстрактні поняття','information, music, education, democracy, intelligence'],['Види спорту та ігри','football, golf, tennis, poker'],['Погодні явища','snow, fog, rain'],['Хвороби','flu, cancer']].map(([a,b])=>`<tr><td>${a}</td><td>${wordify(b)}</td></tr>`).join('')}
+    </tbody></table></div>`}
+
+function rulePage(id){
+  const r=RM[id], g=GROUPS[r.g], idx=RULES.filter(x=>x.g===r.g).indexOf(r)+1, trs=TRX[id]||[];
+  const fromLabel=view.from?{play:'вправи',pairs:'пар-пасток',story:'історії',end:'результату',wplay:'слів',cheat:'шпаргалки'}[view.from.v.name]:'';
+  let h=`<div class="top">${view.from?`<button class="btn primary" data-act="back">← Повернутися до ${fromLabel}</button>`:''}<button class="btn ghost" data-act="home">${view.from?'Усі правила':'← Усі правила'}</button></div>
+  <article class="rule sticker g-${r.g}">
+    <div class="topic-head"><span class="badge">${g.badge}</span><span class="label">${g.title} · правило ${idx}</span></div>
+    <h1>${r.t}</h1><p class="explain">${r.e}</p>
+    ${illFor(id).map(k=>`<div class="illone">${illCard(k,false)}</div>`).join('')}
+    <div class="label">Приклади</div><ul class="exlist">`;
+  r.x.forEach(([en,ua],i)=>{h+=`<li data-ctx="${esc(plainEx(en))}"><div class="en">${rich(en)}</div>${ua?`<span class="ua">${ua}</span>`:''}${trBlock(trs[i])}</li>`});
+  h+=`</ul>`;
+  const more=Q.filter(q=>q.r===id);
+  h+=`<details class="more"><summary>Ще приклади з життя · ${more.length}</summary><ul class="exlist">${more.map(q=>`<li data-ctx="${esc(plainQ(q))}"><div class="en">${sentence(q,q.a,'hl')}</div><span class="ua">${esc(q.n)}</span>${trBlock(q.tr)}</li>`).join('')}</ul></details>`;
+  if(r.chips){h+=`<div class="label">Запам'ятай</div><div class="chips">${r.chips.map(c=>`<span class="chip">${c}</span>`).join('')}</div>`}
+  if(r.table){h+=`<div class="label">Незлічувані іменники</div>`+uncTable()}
+  const mine=store.mine.filter(m=>m.r===id);
+  h+=`<div class="label">Мої приклади</div>`;
+  if(mine.length){h+=`<ul class="exlist">`;mine.forEach(m=>{const q=mineQs().find(x=>x.id===m.id);
+    h+=`<li class="mineli" data-ctx="${esc(plainQ(q))}"><div class="en">${sentence(q,q.a,'hl')}</div>${trBlock(m.tr)}<button class="del" data-act="delmine" data-id="${m.id}" aria-label="Видалити приклад">Видалити</button></li>`});h+=`</ul>`}
+  h+=`<form class="addform" id="addform" data-rule="${id}">
+    <label for="m-sent">Речення англійською. Постав <b>___</b> там, де має бути артикль (або напиши речення з артиклем, і я сама його знайду).</label>
+    <div class="inrow"><input id="m-sent" type="text" autocomplete="off" placeholder="We have ___ dog."><button type="button" class="btn" data-act="blank">___</button></div>
+    <span class="flabel">Який артикль правильний?</span>
+    <div class="seg" role="radiogroup">${[['a','a'],['an','an'],['the','the'],['-','Ø']].map(([v,l],i)=>`<label><input type="radio" name="m-ans" id="m-ans-${i}" value="${v}" ${i===0?'checked':''}><span>${l}</span></label>`).join('')}</div>
+    <label for="m-tr">Переклад (необов'язково)</label><input id="m-tr" type="text" autocomplete="off" placeholder="У нас є собака.">
+    <p class="ferr" id="m-err" hidden></p>
+    <button class="btn sun" type="submit">Додати приклад</button>
+  </form>`;
+  h+=`<div class="actions">${view.from?`<button class="btn primary" data-act="back">← Повернутися до ${fromLabel}</button>`:''}<button class="btn ${view.from?'':'primary'}" data-act="play" data-pool="r:${id}">Тренувати: ${MODES[store.mode].t}</button></div>${view.from?'<p class="hint" style="text-align:left">Якщо почнеш тренувати це правило, поточна вправа завершиться.</p>':''}</article>`;
+  return h;
+}
+
+function wordsPage(){
+  const ws=Object.values(store.words).sort((a,b)=>b.t-a.t);
+  let h=`<div class="top"><button class="btn ghost" data-act="home">← Усі правила</button></div>
+  <section class="rule sticker"><span class="label">Словник</span><h1>Мої слова</h1>
+  <p class="explain">Слова, які ти позначила в прикладах. Допиши свій переклад, і їх можна вчити картками або письмово.</p>`;
+  if(ws.length){const withTr=ws.filter(w=>(w.tr||'').trim()).length, learned=ws.filter(w=>(w.lvl||0)>=3).length;
+    h+=`<div class="studybox"><div class="meta">Вивчено ${learned} з ${ws.length} · з перекладом ${withTr}</div><div class="actions">
+      <button class="btn teal" data-act="wstudy" data-m="cards">Картки</button>
+      <button class="btn primary" data-act="wstudy" data-m="type" ${withTr?'':'disabled'}>Напиши слово</button></div>
+      ${withTr?'':'<p class="hint" style="text-align:left">Щоб відкрити «Напиши слово», допиши переклад хоча б до одного слова.</p>'}</div>`}
+  if(!ws.length) h+=`<p class="empty">Тут поки порожньо. Увімкни «Позначати слова» внизу екрана й натисни на незнайоме слово в будь-якому прикладі.</p>`;
+  else{h+=`<div class="wlist">`;ws.forEach((w,i)=>{
+    h+=`<div class="witem"><div class="whead"><b class="ww">${esc(w.w)}</b>${dots(w.lvl)}<a class="glink" href="https://translate.google.com/?sl=en&tl=uk&text=${encodeURIComponent(w.w)}" target="_blank" rel="noopener">Google Перекладач ↗</a></div>
+    ${w.ctx?`<p class="wctx">${esc(w.ctx)}</p>`:''}
+    <div class="inrow"><input id="wt-${i}" type="text" data-wtr="${esc(w.w)}" value="${esc(w.tr||'')}" placeholder="Мій переклад" aria-label="Переклад слова ${esc(w.w)}"><button class="btn" data-act="delword" data-w="${esc(w.w)}">Вивчила</button></div></div>`});h+=`</div>`}
+  h+=`</section>`;return h;
+}
+
+function dots(l){l=l||0;return `<span class="dots" title="Рівень ${l} з 3">${[0,1,2].map(i=>`<i class="${i<l?'on':''}"></i>`).join('')}</span>`}
+const STORIES = [
+ {id:'s1',t:'Повідомлення орендодавцю',d:'Проблема з опаленням у кімнаті.',
+  x:"Hi Mark, I'm writing about [[-|z1]] my room. There is [[a|an1]] problem with [[the|th1]] heating. [[The|th1]] radiator in my room doesn't work, and it gets very cold at [[-|z10]] night. Could you send [[an|an2]] electrician this week? I'm usually at home in [[the|th2]] evening. Thanks, [[-|z8]] Olena",
+  tr:'Привіт, Марку! Пишу щодо моєї кімнати. Є проблема з опаленням. Радіатор у моїй кімнаті не працює, і вночі стає дуже холодно. Чи могли б ви цього тижня прислати електрика? Увечері я зазвичай удома. Дякую, Олена.'},
+ {id:'s2',t:'Нова робота',d:'Перший тиждень у готелі в Голвеї.',
+  x:"I started [[a|an1]] new job last week. I work as [[a|an4]] receptionist in [[a|an1]] hotel in [[-|z9]] Galway. [[The|th1]] hotel is near [[the|th2]] sea, and [[the|th1]] manager is very kind. On [[-|z3]] Mondays I start early in [[the|th2]] morning and finish at [[-|z10]] noon. It's [[the|th4]] best job I've ever had!",
+  tr:'Минулого тижня я почала нову роботу. Я працюю адміністраторкою в готелі в Голвеї. Готель біля моря, а менеджер дуже добрий. По понеділках я починаю рано вранці й закінчую опівдні. Це найкраща робота, яка в мене колись була!'},
+ {id:'s3',t:'Вихідні в Корку',d:'Дощ, сніданок і прогулянка вздовж річки.',
+  x:"Last weekend we went to [[-|z9]] Cork. We stayed in [[a|an1]] small guesthouse. [[The|th1]] owner, [[-|z8]] Mrs Walsh, made us [[a|an1]] delicious apple tart. On [[-|z3]] Saturday it rained all [[-|z10]] day, so we went to [[a|an2]] museum. [[The|th2]] weather was better on Sunday, and we walked along [[the|th5]] River Lee. [[The|th3]] Irish are so friendly!",
+  tr:'Минулих вихідних ми їздили в Корк. Ми зупинилися в маленькому гостьовому будинку. Власниця, місіс Волш, спекла нам смачний яблучний пиріг. У суботу весь день ішов дощ, тож ми пішли в музей. У неділю погода була кращою, і ми гуляли вздовж річки Лі. Ірландці такі привітні!'},
+ {id:'s4',t:'У лікаря',d:'Застуда, вода і прогулянки.',
+  x:"Last week I didn't feel well, so I called [[-|z8]] Dr Byrne. I thought I had [[a|z6]] cold, but she said it was just [[-|z2]] stress. She told me to drink more [[-|z4]] water and go for [[a|an5]] walk every day. She also said I should stop drinking [[-|z4]] coffee in [[the|th2]] evening. It's [[the|th4]] first time a doctor has told me that!",
+  tr:'Минулого тижня я погано почувалася, тож зателефонувала доктору Бірн. Я думала, що застудилася, але вона сказала, що це просто стрес. Вона порадила мені пити більше води й щодня ходити на прогулянку. А ще сказала, що мені варто перестати пити каву ввечері. Це перший раз, коли лікар мені таке каже!'},
+ {id:'s5',t:'Пошук квартири',d:'Дорога оренда і маленька кухня.',
+  x:"I'm looking for [[a|an2]] flat in [[-|z9]] Dublin. [[-|z2]] Rent here is very high. Yesterday I saw [[an|an1]] apartment near [[the|th5]] Liffey. [[The|th1]] apartment was nice, but [[the|th1]] kitchen was very small. It was on [[the|th4]] third floor, and there was no lift. I need [[-|an6]] advice: should I take it?",
+  tr:'Я шукаю квартиру в Дубліні. Оренда тут дуже висока. Учора я подивилася квартиру біля Ліффі. Квартира була гарна, але кухня дуже маленька. Вона була на третьому поверсі, і там не було ліфта. Мені потрібна порада: брати її чи ні?'}
+];
+const PAIRS = [
+ ['I always go jogging in ___ morning.','the','th2','I can\'t sleep at ___ night.','-','z10','In the morning з the, але at night — стійкий вираз без артикля.'],
+ ['___ Shannon is a long river.','the','th5','___ Ireland is a green country.','-','z9','Річки з the, а більшість країн без артикля.'],
+ ['I\'ve got ___ cold.','a','z6','Smoking causes ___ cancer.','-','z6','Застуда — виняток з a. Більшість хвороб без артикля.'],
+ ['She is ___ teacher.','a','an4','She is ___ best teacher in the school.','the','th4','Професія з a, але з найвищим ступенем (best) уже the.'],
+ ['I like ___ music.','-','z2','I like ___ music in this café.','the','th1','Музика взагалі без артикля. Конкретна музика (в цьому кафе) з the.'],
+ ['___ Dogs are friendly animals.','-','z2','___ dogs next door bark all night.','the','th1','Собаки загалом без артикля. Конкретні собаки сусідів з the.'],
+ ['We live in ___ Netherlands.','the','th5','We live in ___ Germany.','-','z9','Деякі країни (the Netherlands, the UK, the USA) з the, а більшість без.'],
+ ['Let\'s have ___ lunch.','-','z4','We had ___ lovely lunch by the sea.','a','an1','Прийом їжі без артикля, але коли є прикметник (a lovely lunch), з\'являється a.'],
+ ['She speaks ___ English.','-','z5','___ English drink a lot of tea.','the','th3','Мова без артикля, а народ (англійці) з the.'],
+ ['Can I have ___ apple?','an','an2','Can I have ___ apples?','-','an6','Однина з a/an, у множині a/an неможливий.'],
+ ['I need ___ information.','-','an6','___ information you gave me was useful.','the','th1','Незлічуване без a/an. Але конкретна інформація (яку ти дав) з the.'],
+ ['We go to ___ seaside every summer.','the','th2','We go to ___ Spain every summer.','-','z9','The seaside — природа навколо нас, а назва країни без артикля.'],
+ ['I saw ___ cat in the garden.','a','an1','___ cat was black and white.','the','th1','Спочатку a (перша згадка), потім the (вже знаємо, який кіт).'],
+ ['We waited for ___ hour.','an','an3','We waited for ___ year.','a','an3','Дивимось на звук: hour з голосного (h не читається), year з «й».'],
+ ['I go to the gym every ___ week.','-','z10','I go to the gym three times ___ week.','a','an3','Every week без артикля, а three times a week — a означає «один».'],
+ ['We met ___ last week.','-','z10','I was ___ last person to leave.','the','th4','Last week — вираз часу без артикля. The last person — «останній» як порядкове слово.']
+];
+STORIES.push(
+ {id:'s6',t:'У супермаркеті',d:'Хліб, довга черга і дощ дорогою додому.',
+  x:"On [[-|z3]] Saturday I went to [[the|th1]] supermarket near our house. I needed [[-|an6]] bread and [[-|an6]] eggs. [[The|th1]] queue was very long, so I waited for half [[an|an3]] hour. At [[the|th1]] checkout, [[a|an1]] woman asked me for [[a|an2]] pen. Then I took [[the|th1]] bus home in [[the|th2]] rain.",
+  tr:'У суботу я пішла в супермаркет біля нашого будинку. Мені треба було хліба та яєць. Черга була дуже довга, тож я чекала пів години. На касі якась жінка попросила в мене ручку. Потім я поїхала додому автобусом під дощем.'},
+ {id:'s7',t:'Курси англійської',d:'Вечірні заняття, вчителька і одногрупники.',
+  x:"Twice [[a|an3]] week I go to [[an|an1]] English class in [[the|th2]] evening. Our teacher, [[-|z8]] Siobhan, is [[a|an4]] retired journalist. We learn [[-|z2]] grammar, but [[the|th4]] most interesting part is speaking. Most of my classmates are from [[-|z9]] Brazil and [[-|z9]] Spain. After class we sometimes go for [[a|an5]] coffee together.",
+  tr:'Двічі на тиждень я ходжу ввечері на заняття з англійської. Наша вчителька, Шивон, — журналістка на пенсії. Ми вивчаємо граматику, але найцікавіше — це розмовна частина. Більшість моїх одногрупників із Бразилії та Іспанії. Після заняття ми іноді разом ходимо на каву.'},
+ {id:'s8',t:'День народження подруги',d:'Італійський ресторан, торт і прогулянка біля моря.',
+  x:"It was [[-|z1]] my friend Kate's birthday on [[-|z3]] Friday. We booked [[a|an1]] table at [[an|an1]] Italian restaurant. [[The|th1]] food was amazing, and [[the|th1]] waiter brought her [[a|an1]] cake with candles. After dinner we went for [[a|an5]] walk by [[the|th2]] sea. We got home at [[-|z10]] midnight.",
+  tr:'У п\'ятницю був день народження моєї подруги Кейт. Ми забронювали столик в італійському ресторані. Їжа була чудова, а офіціант приніс їй торт зі свічками. Після вечері ми прогулялися біля моря. Додому ми повернулися опівночі.'},
+ {id:'s9',t:'Дзвінок мамі',d:'Щонедільна розмова з Україною.',
+  x:"Every [[-|z10]] Sunday I call [[-|z1]] my mum in [[-|z9]] Ukraine. She always asks about [[the|th2]] weather in Ireland, and I tell her it rains all [[-|z10]] year! She works as [[a|an4]] teacher, and this year she has [[a|an1]] new class. [[The|th1]] children in her class are learning [[-|z5]] English. She says I speak [[-|z5]] Ukrainian with [[an|an1]] Irish accent now!",
+  tr:'Щонеділі я дзвоню мамі в Україну. Вона завжди питає про погоду в Ірландії, а я кажу їй, що тут дощ цілий рік! Вона працює вчителькою, і цього року в неї новий клас. Діти в її класі вчать англійську. Вона каже, що тепер я говорю українською з ірландським акцентом!'},
+ {id:'s10',t:'На автобусній зупинці',d:'Сніг, газета і запізнення на роботу.',
+  x:"This morning I waited at [[the|th1]] bus stop for [[an|an3]] hour. [[The|th1]] bus was late again because of [[the|th2]] snow. [[A|an1]] man next to me was reading [[a|an1]] newspaper. He said, \"[[-|z2]] Buses in this city are never on time.\" I was [[the|th4]] last person to get on, and I got to work at [[-|z10]] noon.",
+  tr:'Сьогодні вранці я годину чекала на автобусній зупинці. Автобус знову запізнився через сніг. Чоловік поруч читав газету. Він сказав: «Автобуси в цьому місті ніколи не приходять вчасно». Я зайшла останньою і дісталася на роботу опівдні.'}
+);
+PAIRS.push(
+ ['___ sun is very hot today.','the','th2','___ Mars is a red planet.','-','z8','Сонце одне, тому the sun. Назви планет — власні назви, без артикля.'],
+ ['We had ___ dinner at eight.','-','z4','___ dinner was delicious.','the','th1','Прийом їжі без артикля. Але конкретна вечеря, яку ми їли, з the.'],
+ ['I play ___ tennis on Fridays.','-','z7','I bought ___ tennis racket.','a','an1','Вид спорту без артикля, а предмет (ракетка), згаданий уперше, з a.'],
+ ['___ Atlantic is cold.','the','th5','___ Lake Como is beautiful.','-','z9','Океани з the, а окремі озера без артикля.'],
+ ['See you on ___ Monday.','-','z3','It was ___ Monday I\'ll never forget.','a','an1','День тижня без артикля, але «один такий понеділок» з a.'],
+ ['___ Alps are very high.','the','th5','___ Everest is very high.','-','z9','Гірський хребет з the, а окрема гора без артикля.'],
+ ['I love ___ coffee.','-','z2','___ coffee at this café is great.','the','th1','Кава взагалі без артикля, а конкретна кава в цьому кафе з the.'],
+ ['___ Christmas is in December.','-','z3','___ Christmas we spent in Kyiv was magical.','the','th1','Свято без артикля, але конкретне Різдво (яке ми провели в Києві) з the.'],
+ ['Can you pass ___ salt, please?','the','th1','Add ___ salt to the pasta water.','-','z2','На столі зрозуміло, яка сільничка, тому the. Сіль загалом без артикля.'],
+ ['She bought ___ umbrella.','an','an1','She bought ___ yellow umbrella.','a','an1','Артикль залежить від слова одразу після нього: umbrella з голосного, yellow з приголосного.'],
+ ['There\'s ___ problem with my laptop.','a','an1','___ problem is the battery.','the','th1','Спочатку a (згадуємо вперше), потім the (вже знаємо, яка проблема).'],
+ ['___ Water is important for health.','-','z2','___ water in this lake is very clean.','the','th1','Вода взагалі без артикля, а вода в конкретному озері з the.'],
+ ['___ Thompsons live next door.','the','th3','___ Tom Thompson lives next door.','-','z8','Уся родина з the, а одна людина за іменем без артикля.']
+);
+function crowd(mode){
+  // 7 little figures; a = one of many (any), the = this exact one, zero = all of them in general
+  const xs=[20,52,84,116,148,180,212];
+  return `<svg class="crowd" viewBox="0 0 232 92" role="img" aria-label="${mode==='a'?'один будь-який із багатьох':mode==='the'?'саме цей, відомий':'усі загалом'}">
+    ${xs.map((x,i)=>{
+      let c='fig'; if(mode==='a'&&i===2)c+=' pick-a'; if(mode==='the'&&i===4)c+=' pick-the'; if(mode==='zero')c+=' pick-z';
+      if(mode==='the'&&i!==4)c+=' dim';
+      return `<g class="${c}"><circle cx="${x}" cy="40" r="12"/><path d="M${x-9} 33 l-4 -12 l9 6 z M${x+9} 33 l4 -12 l-9 6 z"/><rect x="${x-11}" y="54" width="22" height="16" rx="7"/></g>`}).join('')}
+    ${mode==='a'?`<text x="84" y="88" class="ctext">?</text>`:''}
+    ${mode==='the'?`<path class="arrow" d="M148 12 L148 4 L180 4" /><text x="196" y="14" class="ctext">this</text>`:''}
+  </svg>`;
+}
+function dog(x,y,s,cls){
+  return `<g class="fig ${cls||''}" transform="translate(${x} ${y}) scale(${s})"><path class="tail" d="M10 22 q10 -2 12 -12"/><circle cx="0" cy="0" r="12"/><path d="M-9 -7 l-4 -12 l9 6 z M9 -7 l4 -12 l-9 6 z"/><rect x="-11" y="14" width="22" height="16" rx="7"/><circle class="eye" cx="-4" cy="-1" r="1.6"/><circle class="eye" cx="4" cy="-1" r="1.6"/></g>`;
+}
+const ILL={
+ mention:{t:'Перша і друга згадка',rules:['an1','th1'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 120" role="img" aria-label="Спочатку новий собака, потім той самий собака">
+   <rect class="frame" x="6" y="6" width="120" height="96" rx="12"/><rect class="frame" x="174" y="6" width="120" height="96" rx="12"/>
+   ${dog(66,46,1.3,'pick-a')}<text class="bubble" x="96" y="30">?</text>
+   ${dog(234,46,1.3,'pick-the')}<text class="bubble ok" x="264" y="30">✓</text>
+   <path class="arrow" d="M134 54 L166 54 M158 46 L166 54 L158 62"/>
+   <text class="lab" x="66" y="116">a dog</text><text class="lab" x="234" y="116">the dog</text></svg>`,
+  en:['I saw [a] dog in the park.','[The] dog was black.'],ua:'Спочатку собака новий, ми про нього ще нічого не знаємо. Далі це вже той самий, знайомий собака.'},
+ unique:{t:'Єдине чи одне з багатьох',rules:['th2'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 120" role="img" aria-label="Одне сонце і багато зірок">
+   <rect class="sky" x="6" y="6" width="288" height="96" rx="12"/>
+   <g class="sun"><circle cx="70" cy="52" r="22"/>${[0,45,90,135,180,225,270,315].map(a=>{const r=a*Math.PI/180;return `<line x1="${70+Math.cos(r)*28}" y1="${52+Math.sin(r)*28}" x2="${70+Math.cos(r)*36}" y2="${52+Math.sin(r)*36}"/>`}).join('')}</g>
+   ${[[150,30],[180,62],[205,26],[232,70],[258,36],[275,80],[160,84],[220,48]].map(([x,y],i)=>`<path class="star${i===3?' pick':''}" d="${star(x,y,i===3?11:7)}"/>`).join('')}
+   <text class="lab" x="70" y="116">the sun</text><text class="lab" x="232" y="116">a star</text></svg>`,
+  en:['[The] sun is shining.','I can see [a] star.'],ua:'Сонце одне, тому the. Зірок багато, і ми говоримо про одну з них, тому a.'},
+ superl:{t:'Найбільший і перший',rules:['th4'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 130" role="img" aria-label="Собаки різного розміру в черзі">
+   <line class="ground" x1="10" y1="96" x2="290" y2="96"/>
+   ${dog(40,72,.85,'pick-the')}${dog(100,66,1.05)}${dog(168,58,1.3)}${dog(246,46,1.7,'pick-a2')}
+   <text class="num" x="40" y="114">1</text><text class="num" x="100" y="114">2</text><text class="num" x="168" y="114">3</text><text class="num" x="246" y="114">4</text>
+   <text class="lab" x="40" y="128">the first</text><text class="lab" x="246" y="128">the biggest</text></svg>`,
+  en:['[The] first dog is small.','This is [the] biggest dog.'],ua:'Перший може бути лише один, найбільший теж. Тому з порядковими числівниками й найвищим ступенем завжди the.'},
+ group:{t:'Родина чи одне ім\'я',rules:['th3','z8'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 124" role="img" aria-label="Ціла родина собак у будиночку і один собака з табличкою">
+   <path class="house" d="M14 50 L84 12 L154 50 L154 100 L14 100 Z"/>
+   ${dog(44,66,.9,'pick-the')}${dog(84,66,.9,'pick-the')}${dog(124,66,.9,'pick-the')}
+   ${dog(232,56,1.3,'pick-z')}<rect class="tag" x="206" y="88" width="52" height="18" rx="6"/><text class="tagt" x="232" y="101">Rex</text>
+   <text class="lab" x="84" y="118">the Smiths</text><text class="lab" x="232" y="122">Ø Rex</text></svg>`,
+  en:['[The] Smiths live here.','[-] Rex is their dog.'],ua:'Уся родина Смітів разом — the. Одне ім\'я — без артикля.'},
+ mine:{t:'Мій собака',rules:['z1'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 120" role="img" aria-label="Людина тримає свого собаку на повідку">
+   <g class="person"><circle cx="70" cy="30" r="13"/><rect x="56" y="46" width="28" height="44" rx="10"/></g>
+   <path class="leash" d="M84 62 Q140 40 186 62"/>
+   ${dog(204,62,1.3,'pick-z')}
+   <text class="lab" x="140" y="114">my dog</text><text class="lab strike" x="250" y="26">the my dog</text><line class="x" x1="212" y1="22" x2="288" y2="22"/></svg>`,
+  en:['[-] My dog loves the beach.','I walk [-] this dog every day.'],ua:'Слово my, your, this вже показує, чий або який саме. Артикль тоді зайвий.'},
+ count:{t:'Можна порахувати чи ні',rules:['an6','z2'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 124" role="img" aria-label="Собак можна порахувати, воду ні">
+   ${dog(34,50,1,'pick-a')}${dog(84,50,1)}${dog(134,50,1)}
+   <text class="num" x="34" y="98">1</text><text class="num" x="84" y="98">2</text><text class="num" x="134" y="98">3</text>
+   <path class="glass" d="M206 22 L272 22 L264 100 L214 100 Z"/><path class="water" d="M209 50 L269 50 L264 100 L214 100 Z"/><path class="wave" d="M209 50 q8 -6 15 0 t15 0 t15 0 t15 0"/>
+   <text class="lab" x="84" y="118">a dog, three dogs</text><text class="lab" x="239" y="118">water</text></svg>`,
+  en:['I have [a] dog.','I need [-] water.'],ua:'Собак можна порахувати: a dog, two dogs. Воду порахувати не можна, тому з нею a/an ніколи не ставимо.'},
+ general:{t:'Загалом чи конкретні',rules:['z2','th1'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 124" role="img" aria-label="Усі собаки загалом і двоє конкретних собак за парканом">
+   ${[22,52,82,112].map(x=>dog(x,40,.85,'pick-z')).join('')}${[37,67,97].map(x=>dog(x,78,.85,'pick-z')).join('')}
+   ${[180,200,220,240,260,280].map(x=>`<rect class="fence" x="${x-6}" y="52" width="12" height="52" rx="5"/>`).join('')}<rect class="fence" x="168" y="66" width="126" height="8"/>
+   ${dog(210,48,1,'pick-the')}${dog(252,48,1,'pick-the')}
+   <text class="lab" x="67" y="120">Ø dogs</text><text class="lab" x="231" y="120">the dogs next door</text></svg>`,
+  en:['[-] Dogs are loyal animals.','[The] dogs next door bark all night.'],ua:'Про собак загалом говоримо без артикля. Про конкретних собак, яких ми обоє знаємо, з the.'},
+ job:{t:'Професія',rules:['an4'],
+  svg:()=>`<svg class="ill" viewBox="0 0 300 120" role="img" aria-label="Кілька собак-лікарів, один з них виділений">
+   ${[40,95,150,205,260].map((x,i)=>dog(x,50,1.05,i===2?'pick-a':'dim')+`<g class="cross${i===2?'':' dim'}" transform="translate(${x} ${50+22*1.05})"><rect x="-5" y="-1.6" width="10" height="3.2"/><rect x="-1.6" y="-5" width="3.2" height="10"/></g>`).join('')}
+   <text class="lab" x="150" y="112">She is a vet.</text></svg>`,
+  en:['She is [a] vet.','He works as [an] engineer.'],ua:'Ветеринарів багато, вона одна з них. Тому з професіями ставимо a/an.'}
+};
+function star(x,y,r){let d='';for(let i=0;i<10;i++){const a=Math.PI/5*i-Math.PI/2, rr=i%2?r*.45:r;d+=(i?'L':'M')+(x+Math.cos(a)*rr).toFixed(1)+' '+(y+Math.sin(a)*rr).toFixed(1)+' '}return d+'Z'}
+function illCard(k,withRules){const I=ILL[k];
+  return `<figure class="illcard">${I.svg()}<figcaption><b class="it">${I.t}</b>${I.en.map(e=>`<span class="ie">${rich(e)}</span>`).join('')}<span class="iu">${I.ua}</span>
+  ${withRules?`<span class="ir">${I.rules.map(r=>`<button class="link" data-act="rule" data-id="${r}">${RM[r].t}</button>`).join(' · ')}</span>`:''}</figcaption></figure>`}
+function illFor(id){return Object.keys(ILL).filter(k=>ILL[k].rules.includes(id))}
+function cheatPage(){
+  let h=`<div class="top"><button class="btn ghost" data-act="home">← Усі правила</button></div>
+  <section class="rule sticker"><span class="label">Шпаргалка</span><h1>Усі артиклі на одній сторінці</h1>
+  <p class="explain">Схема, картинки й коротка таблиця всіх правил. Натисни на правило в таблиці, щоб відкрити його повністю.</p></section>
+
+  <section class="rule sticker"><span class="label">Картинка</span><h2 class="h2">a, the чи Ø?</h2>
+  <div class="trio">
+    <figure class="tcell"><span class="badge g-a">a / an</span>${crowd('a')}<figcaption><b>I want <span class="art k-a">a</span> dog.</b><span>Одного, будь-якого. Котрого саме, ще невідомо.</span></figcaption></figure>
+    <figure class="tcell"><span class="badge g-the">the</span>${crowd('the')}<figcaption><b><span class="art k-the">The</span> dog next door is loud.</b><span>Саме цей, і ми обидва знаємо, який.</span></figcaption></figure>
+    <figure class="tcell"><span class="badge g-zero">Ø</span>${crowd('zero')}<figcaption><b><span class="art k-z">Ø</span> Dogs are loyal.</b><span>Усі собаки загалом, без конкретики.</span></figcaption></figure>
+  </div></section>
+
+  <section class="rule sticker"><span class="label">Картинки</span><h2 class="h2">Собаки пояснюють правила</h2>
+  <div class="illgrid">${Object.keys(ILL).map(k=>illCard(k,true)).join('')}</div></section>
+
+  <section class="rule sticker"><span class="label">Схема</span><h2 class="h2">Як обрати артикль</h2>
+  <p class="explain">Йди зверху вниз. На першому «так» зупиняйся.</p>
+  <ol class="flow">
+    <li><div class="fq">Перед словом уже є <b>my, your, his, this, that</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-z">Ø</span><span class="fx">my bag</span></div></li>
+    <li><div class="fq">Це <b>ім'я, місто, країна, мова, спорт, день, місяць, свято</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-z">Ø</span><span class="fx">in Dublin, on Monday</span></div><div class="fnote">Але річки, моря, океани, гори, пустелі й the UK / the USA / the Netherlands з <b>the</b>.</div></li>
+    <li><div class="fq">Обидва знаємо, <b>про що саме</b> мова? Вже згадували, воно єдине, є <b>-est / the first</b>?</div><div class="fa"><span class="yes">так</span><span class="art k-the">the</span><span class="fx">the sun, the best</span></div></li>
+    <li><div class="fq">Одна злічувана річ, <b>одна з багатьох</b>, професія?</div><div class="fa"><span class="yes">так</span><span class="art k-a">a / an</span><span class="fx">a job, an idea</span></div></li>
+    <li class="last"><div class="fq">Множина чи незлічуване <b>загалом</b>.</div><div class="fa"><span class="yes">інакше</span><span class="art k-z">Ø</span><span class="fx">I like music</span></div></li>
+  </ol></section>
+
+  <section class="rule sticker"><span class="label">Звук, а не буква</span><h2 class="h2">a чи an?</h2>
+  <div class="sounds">
+    <div class="scol g-a"><div class="shead"><span class="art k-a">a</span> перед приголосним <b>звуком</b></div>
+      ${[['university','ю'],['European','ю'],['one','в'],['year','й'],['uniform','ю'],['house','г']].map(([w,s])=>`<div class="srow2"><span class="sw">a ${w}</span><span class="ss">[${s}…]</span></div>`).join('')}</div>
+    <div class="scol g-a"><div class="shead"><span class="art k-a">an</span> перед голосним <b>звуком</b></div>
+      ${[['hour','ау'],['honest','о'],['umbrella','а'],['MBA','е'],['idea','ай'],['egg','е']].map(([w,s])=>`<div class="srow2"><span class="sw">an ${w}</span><span class="ss">[${s}…]</span></div>`).join('')}</div>
+  </div>
+  <p class="hint" style="text-align:left">h у hour і honest не читається, тому an. А u в university читається як «ю», тому a.</p></section>
+
+  <section class="rule sticker"><span class="label">Частини доби</span><h2 class="h2">in the … чи at …?</h2>
+  <div class="day">
+    <div class="dseg morning"><b>in the morning</b><span>6–12</span></div>
+    <div class="dpin"><b>at noon</b><span>12:00</span></div>
+    <div class="dseg afternoon"><b>in the afternoon</b><span>12–18</span></div>
+    <div class="dseg evening"><b>in the evening</b><span>18–22</span></div>
+    <div class="dseg night"><b>at night</b><span>22–6</span></div>
+    <div class="dpin"><b>at midnight</b><span>00:00</span></div>
+  </div>
+  <div class="legend"><span><i class="lg-the"></i><b>in the</b> + частина доби</span><span><i class="lg-z"></i><b>at</b> без артикля</span></div></section>
+
+  <section class="rule sticker"><span class="label">Географія</span><h2 class="h2">Карта артиклів</h2>
+  <div class="geo">
+    <div class="gcol gthe"><div class="shead"><span class="art k-the">the</span></div>
+      ${[['річки','the Shannon, the Liffey, the Dnipro'],['моря й океани','the Irish Sea, the Atlantic'],['гірські хребти','the Alps, the Carpathians'],['пустелі','the Sahara'],['частини світу','the West, the North'],['деякі країни','the UK, the USA, the Netherlands']].map(([k,v])=>`<div class="gitem"><span class="gk">${k}</span><span>${v}</span></div>`).join('')}</div>
+    <div class="gcol gz"><div class="shead"><span class="art k-z">Ø</span></div>
+      ${[['більшість країн','Ireland, Ukraine, Spain'],['міста','Dublin, Cork, Kyiv'],['континенти','Europe, Asia'],['окремі гори','Everest, Carrauntoohil'],['озера','Lake Como, Lough Neagh'],['вулиці','Grafton Street']].map(([k,v])=>`<div class="gitem"><span class="gk">${k}</span><span>${v}</span></div>`).join('')}</div>
+  </div></section>
+
+  <section class="rule sticker"><span class="label">Таблиця</span><h2 class="h2">Усі правила коротко</h2>
+  <div class="tablewrap"><table class="cheat"><thead><tr><th>Артикль</th><th>Коли</th><th>Приклад</th></tr></thead><tbody>`;
+  for(const g of Object.values(GROUPS)){
+    RULES.filter(r=>r.g===g.key).forEach((r,i,arr)=>{
+      h+=`<tr class="g-${g.key}">${i===0?`<td rowspan="${arr.length}" class="gcell"><span class="badge">${g.badge}</span></td>`:''}
+        <td><button class="link" data-act="rule" data-id="${r.id}">${r.t}</button><span class="ts">${r.s}</span></td><td class="tex">${rich(r.x[0][0])}</td></tr>`});
+  }
+  h+=`</tbody></table></div></section>
+  <section class="rule sticker"><span class="label">Запам'ятай</span><h2 class="h2">Стійкі вирази</h2>
+  <div class="chipsets">
+    <div><div class="shead"><span class="art k-a">a</span></div><div class="chips">${['a few','a little','in a hurry','for a long time','go for a walk','have a good time','twice a week','a cold'].map(c=>`<span class="chip">${c}</span>`).join('')}</div></div>
+    <div><div class="shead"><span class="art k-the">the</span></div><div class="chips">${['in the morning','in the evening','the weather','the seaside','the sun','the first','the best','the same'].map(c=>`<span class="chip">${c}</span>`).join('')}</div></div>
+    <div><div class="shead"><span class="art k-z">Ø</span></div><div class="chips">${['at night','at noon','all day','last week','every year','tomorrow','by bus','at home','at work','go to bed'].map(c=>`<span class="chip">${c}</span>`).join('')}</div></div>
+  </div></section>`;
+  return h;
+}
+let st=null, pr=null;
+function parseStory(x){const parts=x.split(/\[\[(.+?)\]\]/);const bl=[];for(let i=1;i<parts.length;i+=2){const [a,r]=parts[i].split('|');bl.push({a,r,cap:/^[A-Z]/.test(a)})}return {parts,bl}}
+function storyList(){
+  let h=`<div class="top"><button class="btn ghost" data-act="home">← Усі правила</button></div>
+  <section class="rule sticker"><span class="label">Читання з пропусками</span><h1>Міні-історії</h1><p class="explain">Короткі тексти з життя в Ірландії. Натискай на пропуски, обирай артикль, а потім перевір усе разом.</p><div class="cards">`;
+  STORIES.forEach(s=>{const best=(store.storyBest||{})[s.id]; const n=parseStory(s.x).bl.length;
+    h+=`<button class="rcard sticker" data-act="story" data-id="${s.id}"><h3>${s.t}</h3><p>${s.d}</p><div class="foot"><span class="meta">${n} пропусків</span><span class="spacer"></span><span class="meta">${best!=null?`найкраще ${best}/${n}`:'ще не пройдено'}</span></div></button>`});
+  return h+`</div></section>`;
+}
+function storyPage(){
+  const s=STORIES.find(x=>x.id===st.id), {parts,bl}=parseStory(s.x);
+  let txt='';
+  parts.forEach((p,i)=>{
+    if(i%2===0){txt+=wordify(p);return}
+    const k=(i-1)/2, b=bl[k], v=st.picks[k];
+    let lab=v==null?'?':(v==='-'?'Ø':(b.cap?cap(v):v));
+    let c=st.checked?(v===b.a.toLowerCase()?' ok':' bad'):(st.active===k?' act':'')+(v!=null?' filled':'');
+    txt+=`<button class="sslot${c}${v==='-'?' z':''}" data-act="sslot" data-k="${k}" aria-label="Пропуск ${k+1}">${lab}</button>`;
+    if(st.checked && v!==b.a.toLowerCase()) txt+=`<span class="fix">${b.a==='-'?'Ø':b.a}</span>`;
+  });
+  const done=st.picks.filter(v=>v!=null).length;
+  let h=`<div class="top"><button class="btn ghost" data-act="stories">← Усі історії</button></div>
+  <article class="rule sticker"><span class="label">Міні-історія</span><h1>${s.t}</h1>
+  <div class="story" data-ctx="${esc(parts.map((p,i)=>i%2?(bl[(i-1)/2].a==='-'?'':bl[(i-1)/2].a):p).join('').replace(/\s+/g,' '))}">${txt}</div>
+  ${trBlock(s.tr)}`;
+  if(!st.checked) h+=`<div class="actions"><button class="btn primary" data-act="scheck" ${done<bl.length?'disabled':''}>Перевірити · ${done}/${bl.length}</button></div>`;
+  else{
+    const ok=bl.filter((b,k)=>st.picks[k]===b.a.toLowerCase()).length;
+    h+=`<div class="fb ${ok===bl.length?'good':'miss'}"><h3>${ok===bl.length?'Усе правильно!':`Правильно ${ok} з ${bl.length}`}</h3>`;
+    const wrong=bl.map((b,k)=>({b,k})).filter(({b,k})=>st.picks[k]!==b.a.toLowerCase());
+    if(wrong.length){h+=`<ul class="whys">${wrong.map(({b,k})=>{const r=RM[b.r];return `<li><b>Пропуск ${k+1}:</b> ${b.a==='-'?'без артикля':b.a} <span class="minichip g-${r.g}">${GROUPS[r.g].badge}</span> <button class="link" data-act="rule" data-id="${r.id}">${r.t}</button></li>`}).join('')}</ul>`}
+    h+=`<div class="row"><button class="btn" data-act="story" data-id="${s.id}">Ще раз</button><button class="btn primary" data-act="stories">Інші історії</button></div></div>`;
+  }
+  h+=`</article>`;
+  if(st.active!=null && !st.checked){
+    h+=`<div class="picker" role="group" aria-label="Обери артикль для пропуску ${st.active+1}"><span class="meta">Пропуск ${st.active+1}</span>${[['a','a'],['an','an'],['the','the'],['-','Ø']].map(([v,l])=>`<button class="btn opt${st.picks[st.active]===v?' right':''}" data-act="spick" data-v="${v}">${l}</button>`).join('')}</div>`;
+  }
+  return h;
+}
+function startPairs(){pr={list:shuffle(PAIRS.map((p,i)=>i)).slice(0,10),i:0,picks:[null,null],checked:false,score:0};view={name:'pairs'};render()}
+function pairsPage(){
+  const n=pr.list.length;
+  if(pr.i>=n) return `<section class="end sticker"><span class="label">Пари-пастки</span><div class="score">${pr.score}/${n}</div><p style="font-size:18px;font-weight:700;max-width:40ch">Стільки пар ти розв'язала повністю правильно.</p>
+    <div class="actions"><button class="btn primary" data-act="pairs">Ще раз</button><button class="btn" data-act="home">До правил</button></div></section>`;
+  const P=PAIRS[pr.list[pr.i]];
+  const qs=[{s:P[0],a:P[1],r:P[2]},{s:P[3],a:P[4],r:P[5]}];
+  let h=`<div class="pbar"><button class="btn ghost" data-act="home" aria-label="Вийти">✕</button><div class="bar"><i style="width:${(pr.i+(pr.checked?1:0))/n*100}%"></i></div><span class="meta">${pr.i+1}/${n}</span></div>
+  <section class="q sticker"><div class="ask">Схожі речення, різні відповіді</div><div class="pairgrid">`;
+  qs.forEach((q,j)=>{const v=pr.picks[j]; let cls=''; if(pr.checked) cls=v===q.a?'ok':'bad';
+    h+=`<div class="pitem" data-ctx="${esc(plainQ(q))}"><p class="sent">${sentence(q,v==null?undefined:v,cls)}</p>
+    ${pr.checked&&v!==q.a?`<p class="meta">Правильно: ${q.a==='-'?'Ø':q.a}</p>`:''}
+    <div class="opts small">${[['a','a'],['an','an'],['the','the'],['-','Ø']].map(([o,l])=>{let c='';if(pr.checked){if(o===q.a)c='right';else if(o===v)c='wrong'}else if(o===v)c='chosen';return `<button class="btn opt ${c}" data-act="ppick" data-j="${j}" data-v="${o}" ${pr.checked?'disabled':''}>${l}</button>`}).join('')}</div></div>`});
+  h+=`</div>`;
+  if(!pr.checked) h+=`<button class="btn primary" data-act="pcheck" ${pr.picks.includes(null)?'disabled':''}>Перевірити</button>`;
+  else{const ok=qs.every((q,j)=>pr.picks[j]===q.a);
+    h+=`<div class="fb ${ok?'good':'miss'}" role="status"><h3>${ok?'Обидва правильно!':'Пастка спрацювала'}</h3><p>${esc(P[6])}</p>
+    <div class="rl">${qs.map(q=>{const r=RM[q.r];return `<span class="minichip g-${r.g}">${GROUPS[r.g].badge}</span><button class="link" data-act="rule" data-id="${r.id}">${r.t}</button>`}).join('<span class="meta">·</span>')}</div>
+    <div class="row"><span></span><button class="btn primary" data-act="pnext" id="nextbtn">${pr.i+1<n?'Далі →':'Результат'}</button></div></div>`}
+  return h+`</section>`;
+}
+function recordRule(r,ok){store.tries[r]=(store.tries[r]||0)+1; if(!ok) store.errs[r]=(store.errs[r]||0)+1}
+
+let wr=null;
+function startWords(m){
+  let ws=Object.values(store.words); if(m==='type') ws=ws.filter(w=>(w.tr||'').trim());
+  if(!ws.length) return;
+  ws=shuffle(ws).sort((a,b)=>(a.lvl||0)-(b.lvl||0)).slice(0,10); ws=shuffle(ws);
+  wr={m,list:ws.map(w=>w.w),i:0,flip:false,res:null,known:0}; view={name:'wplay'}; render();
+}
+function blankCtx(ctx,w){return esc(ctx).replace(new RegExp('\\b'+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','gi'),'<span class="slot">?</span>')}
+function wplayPage(){
+  const n=wr.list.length;
+  if(wr.i>=n) return `<section class="end sticker"><span class="label">Готово</span><div class="score">${wr.known}/${n}</div>
+    <p style="font-size:18px;font-weight:700;max-width:40ch">${wr.m==='cards'?'Стільки слів ти позначила як «Знаю».':'Стільки слів написано правильно.'} Кожне слово стає вивченим після трьох правильних разів.</p>
+    <div class="actions"><button class="btn primary" data-act="wstudy" data-m="${wr.m}">Ще раз</button><button class="btn" data-act="words">До моїх слів</button></div></section>`;
+  const w=store.words[wr.list[wr.i]]; if(!w){wr.i++;return wplayPage()}
+  const tr=(w.tr||'').trim();
+  let h=`<div class="pbar"><button class="btn ghost" data-act="words" aria-label="Вийти">✕</button><div class="bar"><i style="width:${(wr.i)/n*100}%"></i></div><span class="meta">${wr.i+1}/${n}</span></div>`;
+  if(wr.m==='cards'){
+    h+=`<button class="fcard sticker${wr.flip?' flipped':''}" data-act="flip" aria-label="Перевернути картку">
+      ${wr.flip?`<span class="label">Переклад</span><b class="fword">${tr?esc(tr):'<span class="muted">переклад не додано</span>'}</b>${w.ctx?`<span class="fctx">${esc(w.ctx)}</span>`:''}`
+      :`<span class="label">Слово</span><b class="fword">${esc(w.w)}</b>${dots(w.lvl)}<span class="hint">Натисни, щоб перевернути</span>`}</button>`;
+    if(wr.flip) h+=`<div class="actions center"><button class="btn" data-act="wans" data-k="0">Ще вчу</button><button class="btn teal" data-act="wans" data-k="1">Знаю</button></div>
+      ${tr?'':`<p class="hint">Додай переклад на сторінці «Мої слова», щоб картка була кориснішою. <a class="glink" href="https://translate.google.com/?sl=en&tl=uk&text=${encodeURIComponent(w.w)}" target="_blank" rel="noopener">Google Перекладач ↗</a></p>`}`;
+  } else {
+    h+=`<section class="q sticker"><div class="ask">Напиши англійською</div><p class="sent">${esc(tr)}</p>
+      ${w.ctx?`<p class="fctx" style="text-align:left">${blankCtx(w.ctx,w.w)}</p>`:''}
+      <form id="wform" class="inrow"><input id="w-in" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="слово" ${wr.res?'disabled':''} value="${wr.res?esc(wr.res.v):''}"><button class="btn primary" type="submit" ${wr.res?'disabled':''}>Перевірити</button></form>`;
+    if(wr.res) h+=`<div class="fb ${wr.res.ok?'good':'miss'}" role="status"><h3>${wr.res.ok?'Правильно!':'Правильно: '+esc(w.w)}</h3>
+      <div class="row"><span></span><button class="btn primary" data-act="wnext" id="nextbtn">Далі →</button></div></div>`;
+    h+=`</section>`;
+  }
+  return h;
+}
+function wGrade(ok){const w=store.words[wr.list[wr.i]]; if(w){w.lvl=Math.max(0,Math.min(3,(w.lvl||0)+(ok?1:-1)))} if(ok) wr.known++; save()}
+function startRound(pool,mode){
+  let qs; const all=Qall();
+  if(pool==='all') qs=shuffle(all).slice(0,10);
+  else if(pool==='bad') qs=shuffle(all.filter(q=>store.bad[q.id])).slice(0,10);
+  else if(pool.startsWith('g:')) qs=shuffle(all.filter(q=>RM[q.r].g===pool.slice(2))).slice(0,10);
+  else qs=shuffle(all.filter(q=>q.r===pool.slice(2)));
+  if(!qs.length){view={name:'home'};return render()}
+  round={pool,mode,qs,i:0,score:0,answered:null,opts:null,wrong:null};
+  view={name:'play'}; render();
+}
+
+function whyOptions(q){
+  const others=shuffle(RULES.filter(r=>r.id!==q.r));
+  const same=others.find(r=>r.g===RM[q.r].g); const diff=others.find(r=>r.g!==RM[q.r].g && r!==same);
+  return shuffle([RM[q.r],same,diff].filter(Boolean));
+}
+
+function playPage(){
+  const q=round.qs[round.i], ans=round.answered, n=round.qs.length;
+  const pct=(round.i+(ans?1:0))/n*100;
+  let h=`<div class="pbar"><button class="btn ghost" data-act="home" aria-label="Вийти">✕</button><div class="bar"><i style="width:${pct}%"></i></div><span class="meta">${round.i+1}/${n}</span><span class="streak">серія ${streak}</span></div>
+  <section class="q sticker">`;
+  const ctx=esc(plainQ(q));
+  if(round.mode==='choose'){
+    h+=`<div class="ask">Встав артикль${q.mine?' · твій приклад':''}</div>`;
+    let cls='', val;
+    if(ans){val=ans.pick; cls=ans.ok?'ok':'bad'}
+    h+=`<div data-ctx="${ctx}"><p class="sent">${sentence(q,val,cls)}</p>${trBlock(q.tr)}</div>`;
+    if(ans && !ans.ok) h+=`<p class="sent" style="font-size:18px;color:var(--muted)" data-ctx="${ctx}">Правильно: ${sentence(q,q.a,'ok')}</p>`;
+    h+=`<div class="opts">`;
+    [['a','a'],['an','an'],['the','the'],['-','Ø<small>без артикля</small>']].forEach(([v,l])=>{
+      let c=''; if(ans){ if(v===q.a)c='right'; else if(v===ans.pick)c='wrong'; }
+      h+=`<button class="btn opt ${c}" data-act="pick" data-v="${v}" ${ans?'disabled':''} aria-label="${v==='-'?'без артикля':v}">${l}</button>`});
+    h+=`</div>`;
+  } else if(round.mode==='spot'){
+    if(!round.wrong) round.wrong=makeSpot(q);
+    h+=`<div class="ask">Знайди помилку і натисни на неї</div>`;
+    const [b,af]=q.s.split('___'); const start=b.trim()==='';
+    const tok=(t,hit,extra)=>`<span class="tk${extra||''}" data-act="spot" data-hit="${hit?1:0}">${esc(t)}</span>`;
+    const words=str=>str.split(/(\s+)/).map(p=>/^\s+$/.test(p)||!p?p:tok(p,false)).join('');
+    let afterHtml=af||'';
+    const m=afterHtml.match(/^(\s*)(\S+)([\s\S]*)$/);
+    let first='', rest=afterHtml, lead='';
+    if(m){lead=m[1];first=m[2];rest=m[3]}
+    let wv=round.wrong; if(start && wv!=='-') wv=cap(wv);
+    let firstWord=first; if(start && round.wrong!=='-' && q.a==='-') firstWord=first.charAt(0).toLowerCase()+first.slice(1);
+    if(start && round.wrong==='-') firstWord=cap(first);
+    const state=ans?(ans.ok?' good':' badspot'):'';
+    let line = words(b) + (round.wrong!=='-'? tok(wv,true,ans?state:'')+' ' : '') + (first?tok(firstWord,true,ans&&round.wrong==='-'?state:''):'') + words(rest);
+    if(ans && ans.tap!=null && !ans.ok){}
+    h+=`<div data-ctx="${ctx}"><p class="sent spot${ans?' done':''}">${line}</p>${trBlock(q.tr)}</div>`;
+    if(ans) h+=`<p class="sent" style="font-size:19px" data-ctx="${ctx}">Правильно: ${sentence(q,q.a,'ok')}</p>`;
+    else h+=`<button class="btn" data-act="spot" data-hit="none">Тут немає помилки</button>`;
+  } else {
+    if(!round.opts) round.opts=whyOptions(q);
+    h+=`<div class="ask">Яке правило тут працює?</div><div data-ctx="${ctx}"><p class="sent">${sentence(q,q.a,'hl')}</p>${trBlock(q.tr)}</div><div class="opts why">`;
+    round.opts.forEach(r=>{let c=''; if(ans){ if(r.id===q.r)c='right'; else if(r.id===ans.pick)c='wrong'; }
+      h+=`<button class="btn opt ${c}" data-act="pick" data-v="${r.id}" ${ans?'disabled':''}><span>${r.t}<small>${GROUPS[r.g].badge} · ${r.s}</small></span></button>`});
+    h+=`</div>`;
+  }
+  if(ans){
+    const r=RM[q.r];
+    h+=`<div class="fb ${ans.ok?'good':'miss'}" role="status"><h3>${ans.ok?'Правильно!':'Не зовсім'}</h3>
+      <div class="rl"><span class="minichip g-${r.g}">${GROUPS[r.g].badge}</span><b>${r.t}</b></div><p>${esc(q.n)}</p>
+      <div class="row"><button class="link" data-act="rule" data-id="${r.id}">Відкрити правило</button>
+      <button class="btn primary" data-act="next" id="nextbtn">${round.i+1<n?'Далі →':'Результат'}</button></div></div>`;
+  } else h+=`<p class="hint">${round.mode==='choose'?'На клавіатурі можна натискати 1–4':round.mode==='spot'?'Помилка завжди пов\'язана з артиклем: зайвий, пропущений або не той':'Обери одне з правил'}</p>`;
+  h+=`</section>`;
+  return h;
+}
+
+function endPage(){
+  const n=round.qs.length, s=round.score, p=s/n;
+  const msg=p===1?'Ідеально! Жодної помилки.':p>=.8?'Дуже добре! Ще трохи практики, і буде ідеально.':p>=.5?'Непогано. Повтори правила, де були помилки.':'Варто ще раз переглянути правила і спробувати знову.';
+  return `<section class="end sticker"><span class="label">Результат</span><div class="score">${s}/${n}</div><p style="font-size:18px;font-weight:700;max-width:40ch">${msg}</p>
+  <div class="actions"><button class="btn primary" data-act="play" data-pool="${round.pool}" data-mode="${round.mode}">Ще раз</button>
+  ${badCount()?`<button class="btn" data-act="play" data-pool="bad" data-mode="choose">Мої помилки · ${badCount()}</button>`:''}
+  <button class="btn" data-act="home">До правил</button></div></section>`;
+}
+
+function confetti(){
+  const c=document.createElement('div');c.className='confetti';
+  const cols=['var(--a)','var(--the)','var(--z)'];
+  for(let i=0;i<60;i++){const s=document.createElement('i');s.style.left=Math.random()*100+'%';s.style.background=cols[i%3];s.style.animationDelay=Math.random()*.5+'s';c.appendChild(s)}
+  document.body.appendChild(c); setTimeout(()=>c.remove(),2600);
+}
+
+const toastEl=document.getElementById('toast'); let toastT;
+function toast(msg){toastEl.textContent=msg;toastEl.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>toastEl.hidden=true,1800)}
+const wmBtn=document.getElementById('wordmode');
+function syncWM(){wmBtn.setAttribute('aria-pressed',wordMode);wmBtn.classList.toggle('on',wordMode);wmBtn.querySelector('span').textContent=wordMode?'Позначаю слова':'Позначати слова';document.body.classList.toggle('wm',wordMode)}
+wmBtn.addEventListener('click',()=>{wordMode=!wordMode;syncWM();toast(wordMode?'Натискай на незнайомі слова':'Позначення вимкнено')});
+
+function render(){
+  wmBtn.hidden = ['words','end','wplay','stories'].includes(view.name)||(view.name==='story'&&st&&st.active!=null&&!st.checked);
+  if(view.name==='home') app.innerHTML=home();
+  else if(view.name==='rule') app.innerHTML=rulePage(view.id);
+  else if(view.name==='play') app.innerHTML=playPage();
+  else if(view.name==='end') app.innerHTML=endPage();
+  else if(view.name==='words') app.innerHTML=wordsPage();
+  else if(view.name==='wplay') app.innerHTML=wplayPage();
+  else if(view.name==='stories') app.innerHTML=storyList();
+  else if(view.name==='story') app.innerHTML=storyPage();
+  else if(view.name==='pairs') app.innerHTML=pairsPage();
+  else if(view.name==='cheat') app.innerHTML=cheatPage();
+}
+
+function pick(v){
+  if(!round||round.answered) return;
+  const q=round.qs[round.i];
+  const ok = round.mode==='choose' ? v===q.a : round.mode==='spot' ? v==='hit' : v===q.r;
+  round.answered={pick:v,ok};
+  store.tries[q.r]=(store.tries[q.r]||0)+1; if(!ok) store.errs[q.r]=(store.errs[q.r]||0)+1;
+  if(ok){round.score++;streak++; if(streak>store.best)store.best=streak; if(round.mode!=='why'){store.ok[q.id]=1; delete store.bad[q.id]}}
+  else{streak=0; store.bad[q.id]=1}
+  save(); render();
+  const nb=document.getElementById('nextbtn'); if(nb) nb.focus({preventScroll:true});
+}
+
+function toggleWord(el){
+  const k=el.dataset.w; const ctxEl=el.closest('[data-ctx]');
+  if(store.words[k]){delete store.words[k];toast('Прибрано: '+k)}
+  else{store.words[k]={w:k,ctx:ctxEl?ctxEl.dataset.ctx:'',tr:'',t:Date.now()};toast('Додано в мої слова: '+k)}
+  save();
+  document.querySelectorAll('.w').forEach(s=>{if(s.dataset.w===k)s.classList.toggle('marked',!!store.words[k])});
+}
+
+app.addEventListener('click',e=>{
+  const w=e.target.closest('.w');
+  if(wordMode && w){e.preventDefault();e.stopPropagation();toggleWord(w);return}
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const a=b.dataset.act;
+  if(a==='home'){view={name:'home'};render();scrollTo(0,0)}
+  else if(a==='rule'){const from=['play','pairs','story','end','wplay','cheat'].includes(view.name)?{v:view,y:scrollY}:(view.name==='rule'&&view.from?view.from:null);view={name:'rule',id:b.dataset.id,from};render();scrollTo(0,0)}
+  else if(a==='back'){const f=view.from;if(!f){view={name:'home'};render();return}view=f.v;render();scrollTo(0,f.y||0)}
+  else if(a==='words'){view={name:'words'};render();scrollTo(0,0)}
+  else if(a==='play'){startRound(b.dataset.pool,b.dataset.mode||store.mode);scrollTo(0,0)}
+  else if(a==='stories'){view={name:'stories'};render();scrollTo(0,0)}
+  else if(a==='story'){const n=parseStory(STORIES.find(x=>x.id===b.dataset.id).x).bl.length;st={id:b.dataset.id,picks:Array(n).fill(null),active:0,checked:false};view={name:'story'};render();scrollTo(0,0)}
+  else if(a==='sslot'){if(st.checked)return;st.active=+b.dataset.k;render()}
+  else if(a==='spick'){st.picks[st.active]=b.dataset.v;const nx=st.picks.findIndex((v,i)=>v==null&&i>st.active);const any=st.picks.indexOf(null);st.active=nx>=0?nx:(any>=0?any:null);render()}
+  else if(a==='scheck'){const s0=STORIES.find(x=>x.id===st.id),bl=parseStory(s0.x).bl;st.checked=true;st.active=null;let ok=0;bl.forEach((bb,k)=>{const g=st.picks[k]===bb.a.toLowerCase();if(g)ok++;recordRule(bb.r,g)});store.storyBest=store.storyBest||{};store.storyBest[st.id]=Math.max(store.storyBest[st.id]||0,ok);save();render();if(ok===bl.length)confetti()}
+  else if(a==='pairs'){startPairs();scrollTo(0,0)}
+  else if(a==='cheat'){view={name:'cheat'};render();scrollTo(0,0)}
+  else if(a==='ppick'){pr.picks[+b.dataset.j]=b.dataset.v;render()}
+  else if(a==='pcheck'){const P=PAIRS[pr.list[pr.i]];const g1=pr.picks[0]===P[1],g2=pr.picks[1]===P[4];recordRule(P[2],g1);recordRule(P[5],g2);if(g1&&g2)pr.score++;pr.checked=true;save();render();document.getElementById('nextbtn')?.focus({preventScroll:true})}
+  else if(a==='pnext'){pr.i++;pr.picks=[null,null];pr.checked=false;render();if(pr.i>=pr.list.length&&pr.score/pr.list.length>=.8)confetti()}
+  else if(a==='wstudy'){startWords(b.dataset.m);scrollTo(0,0)}
+  else if(a==='flip'){wr.flip=!wr.flip;render()}
+  else if(a==='wans'){wGrade(b.dataset.k==='1');wr.i++;wr.flip=false;render()}
+  else if(a==='wnext'){wr.i++;wr.res=null;render();const i=document.getElementById('w-in');if(i)i.focus()}
+  else if(a==='mode'){store.mode=b.dataset.m;save();render()}
+  else if(a==='spot'){if(!round||round.answered)return; const h=b.dataset.hit; if(h==='none'){b.classList.add('wrong')} else if(h==='0'){b.classList.add('miss')} pick(h==='1'?'hit':'miss')}
+  else if(a==='pick') pick(b.dataset.v);
+  else if(a==='tr'){const t=b.nextElementSibling; t.hidden=!t.hidden; b.setAttribute('aria-expanded',String(!t.hidden)); b.textContent=t.hidden?'Переклад':'Сховати переклад'}
+  else if(a==='blank'){const inp=document.getElementById('m-sent');const s=inp.selectionStart??inp.value.length, en=inp.selectionEnd??s;inp.value=inp.value.slice(0,s)+'___'+inp.value.slice(en);inp.focus();const p=s+3;inp.setSelectionRange(p,p)}
+  else if(a==='delmine'){const id=b.dataset.id;store.mine=store.mine.filter(m=>m.id!==id);delete store.ok[id];delete store.bad[id];save();render();toast('Приклад видалено')}
+  else if(a==='delword'){delete store.words[b.dataset.w];save();render();toast('Чудово! Слово прибрано зі списку')}
+  else if(a==='next'){
+    round.i++; round.answered=null; round.opts=null; round.wrong=null;
+    if(round.i>=round.qs.length){view={name:'end'};render(); if(round.score/round.qs.length>=.8) confetti()}
+    else render();
+  }
+});
+function article(word,base){return base==='a'&&/^[aeiou]/i.test(word)?'an':base}
+function makeSpot(q){
+  const after=(q.s.split('___')[1]||'').trim(); const next=(after.match(/[A-Za-z']+/)||[''])[0];
+  if(q.a==='a'||q.a==='an') return Math.random()<.5?'-':(q.a==='a'?'an':'a');
+  const opts = q.a==='-'?['a','the']:['a','-'];
+  let w=opts[Math.floor(Math.random()*opts.length)]; if(w==='a') w=article(next,'a');
+  return w;
+}
+app.addEventListener('submit',e=>{
+  if(e.target.id==='wform'){e.preventDefault(); if(wr.res) return; const v=document.getElementById('w-in').value.trim(); if(!v) return;
+    const ok=v.toLowerCase()===wr.list[wr.i]; wr.res={v,ok}; wGrade(ok); render(); const nb=document.getElementById('nextbtn'); if(nb) nb.focus(); return}
+  if(e.target.id!=='addform') return; e.preventDefault();
+  const f=e.target, err=document.getElementById('m-err');
+  let s=document.getElementById('m-sent').value.trim().replace(/\s+/g,' ');
+  const ans=(f.querySelector('input[name="m-ans"]:checked')||{}).value;
+  const tr=document.getElementById('m-tr').value.trim();
+  const fail=m=>{err.textContent=m;err.hidden=false};
+  if(!s) return fail('Напиши речення англійською.');
+  if(!s.includes('___')){
+    if(ans==='-') return fail('Для Ø постав ___ перед словом, де артикля немає. Наприклад: I love ___ music.');
+    const re=new RegExp('\\b'+ans+'\\b','i'); if(!re.test(s)) return fail(`У реченні немає «${ans}». Постав ___ на місце артикля.`);
+    s=s.replace(re,'___');
+  }
+  if(s.split('___').length!==2) return fail('Має бути лише один пропуск ___.');
+  s=s.replace(/^___(?=\s)/,'___').replace(/^___\s+([a-z])/,(m,c)=>ans==='-'?'___ '+c.toUpperCase():m);
+  if(ans!=='-') s=s.replace(/^___\s+([A-Z])(?=[a-z])/,(m,c)=>'___ '+c.toLowerCase());
+  store.mine.push({id:'m'+Date.now(),r:f.dataset.rule,s,a:ans,tr});
+  save(); render(); toast('Приклад додано, він з\'явиться у вправах');
+});
+app.addEventListener('input',e=>{
+  const k=e.target.dataset&&e.target.dataset.wtr; if(!k||!store.words[k]) return;
+  store.words[k].tr=e.target.value; save();
+});
+document.addEventListener('keydown',e=>{
+  if(view.name==='wplay'&&wr&&wr.res&&e.key==='Enter'&&e.target.tagName!=='BUTTON'){e.preventDefault();document.getElementById('nextbtn')?.click();return}
+  if(view.name!=='play'||!round) return;
+  if(e.target.tagName==='INPUT') return;
+  if(round.answered && (e.key==='Enter'||e.key===' ')){const nb=document.getElementById('nextbtn'); if(nb&&document.activeElement!==nb){e.preventDefault();nb.click()} return}
+  const k=parseInt(e.key,10); if(!round.answered && k>=1 && k<=4){
+    const btns=[...app.querySelectorAll('[data-act="pick"]')]; if(btns[k-1]) btns[k-1].click();
+  }
+});
+syncWM(); render();
+</script>
+
+</body></html>

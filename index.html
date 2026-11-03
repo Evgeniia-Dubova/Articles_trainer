@@ -5,29 +5,34 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Nunito:wght@500;700;800;900&display=swap">
 </head><body>
 <style>
-/* Layout: sticker-style cards on a dotted notebook ground; one colour per article (a/an coral, the teal, Ø mustard) */
+/* Layout: sticker-style cards on a soft pink-to-peach ground; one colour per article (a/an coral, the mint, Ø yellow) */
 :root{
-  --bg:#eef5f2; --dot:rgba(27,34,48,.10); --card:#ffffff; --ink:#1b2230; --muted:#5a6575;
-  --stroke:#1b2230; --shadow:#1b2230; --on:#1b2230;
-  --a:#ff6a4d; --a-soft:#ffe2da; --the:#12a397; --the-soft:#d3f2ee; --z:#f2b200; --z-soft:#fff0c0;
+  --bg:#fdeef3; --dot:rgba(140,95,116,.08); --card:#ffffff; --ink:#43303a; --muted:#86707c;
+  --stroke:#8c5f74; --shadow:#f0c4d4; --on:#43303a;
+  --a:#ff9480; --a-soft:#ffe6df; --the:#5ec2b2; --the-soft:#dbf4ee; --z:#f8c95e; --z-soft:#fff3d5;
   --ok:#1d9a52; --ok-soft:#d9f5e4; --bad:#dc4136; --bad-soft:#fde0dd;
+  --bgimg:linear-gradient(180deg,#fde4ee 0%,#fff0ea 55%,#fff6ec 100%);
   --display:"Unbounded","Arial Black",system-ui,sans-serif;
   --body:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#121820; --dot:rgba(238,242,247,.07); --card:#1b232e; --ink:#eef2f7; --muted:#9ba7b7;
-  --stroke:#3c4859; --shadow:#05080b; --on:#141a22;
-  --a:#ff8068; --a-soft:#3b2420; --the:#2fc3b6; --the-soft:#12332f; --z:#ffc93d; --z-soft:#382e14;
-  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b; color-scheme:dark}}
+  --bg:#1f1519; --dot:rgba(247,233,238,.06); --card:#2a1d23; --ink:#f7e9ee; --muted:#c0a6b1;
+  --stroke:#5e4350; --shadow:#0d0809; --on:#24171c;
+  --a:#ff9a86; --a-soft:#40251f; --the:#5fcab9; --the-soft:#173330; --z:#ffcf6a; --z-soft:#3a2f17;
+  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b;
+  --bgimg:linear-gradient(180deg,#2b1821 0%,#26191b 55%,#231a16 100%); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#121820; --dot:rgba(238,242,247,.07); --card:#1b232e; --ink:#eef2f7; --muted:#9ba7b7;
-  --stroke:#3c4859; --shadow:#05080b; --on:#141a22;
-  --a:#ff8068; --a-soft:#3b2420; --the:#2fc3b6; --the-soft:#12332f; --z:#ffc93d; --z-soft:#382e14;
-  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b; color-scheme:dark}
+  --bg:#1f1519; --dot:rgba(247,233,238,.06); --card:#2a1d23; --ink:#f7e9ee; --muted:#c0a6b1;
+  --stroke:#5e4350; --shadow:#0d0809; --on:#24171c;
+  --a:#ff9a86; --a-soft:#40251f; --the:#5fcab9; --the-soft:#173330; --z:#ffcf6a; --z-soft:#3a2f17;
+  --ok:#3fcf7d; --ok-soft:#16301f; --bad:#ff6b60; --bad-soft:#3a1d1b;
+  --bgimg:linear-gradient(180deg,#2b1821 0%,#26191b 55%,#231a16 100%); color-scheme:dark}
 
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);background-image:radial-gradient(var(--dot) 1.2px,transparent 1.3px);background-size:22px 22px;
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(var(--dot) 1.2px,transparent 1.3px) 0 0/22px 22px,var(--bgimg)}
+body{background:var(--bg);
   color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
 .wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}

@@ -415,7 +415,7 @@ const RULES = [
  {id:'z10',g:'zero',t:'Стійкі вирази часу',s:'at night, all day, last week, tomorrow.',
   e:'У цих виразах часу артикль не ставиться. Зверни увагу: in the morning, але at night.',
   x:[['I work at [-] night.',''],['See you [-] tomorrow!','']],
-  chips:['at night','at noon','at midnight','all day','all night','all year','all month','all week','every month','every year','last night','last day','last week','last month','last year','yesterday','today','tomorrow']}
+  chips:['at night','at noon','at midnight','all day','all night','all year','all month','all week','every month','every year','last night','last week','last month','last year','yesterday','today','tomorrow']}
 ];
 const RM = Object.fromEntries(RULES.map(r=>[r.id,r]));
 
@@ -618,8 +618,9 @@ function rich(str){
     return v==='-'?'<span class="art k-z" title="без артикля">Ø</span>':`<span class="art ${kcls(v.toLowerCase())}">${v}</span>`;
   }).join('');
 }
+const isStart=b=>/^\s*$|[.!?]\s*$/.test(b);
 const plainEx=s=>s.replace(/\[-\]\s*/g,'').replace(/\[(\w+)\]/g,'$1');
-function plainQ(q){const [b,af]=q.s.split('___');const start=b.trim()==='';const v=q.a==='-'?'':(start?cap(q.a):q.a);return (b+v+af).replace(/\s+/g,' ').trim()}
+function plainQ(q){const [b,af]=q.s.split('___');const start=isStart(b);const v=q.a==='-'?'':(start?cap(q.a):q.a);return (b+v+af).replace(/\s+/g,' ').trim()}
 function mineQs(){return store.mine.map(m=>({id:m.id,r:m.r,s:m.s,a:m.a,n:'Твій власний приклад.',tr:m.tr||'',mine:true}))}
 function Qall(){return Q.concat(mineQs())}
 function rulePct(id){const qs=Qall().filter(q=>q.r===id);return [qs.filter(q=>store.ok[q.id]).length,qs.length]}
@@ -627,7 +628,7 @@ function badCount(){const ids=new Set(Qall().map(q=>String(q.id)));return Object
 function wordCount(){return Object.keys(store.words).length}
 
 function sentence(q,val,cls){
-  const [b,af]=q.s.split('___'); const start=b.trim()==='';
+  const [b,af]=q.s.split('___'); const start=isStart(b);
   let inner='?';
   if(val!==undefined){inner = val==='-'?'Ø':(start?cap(val):val)}
   const z = val==='-'?' z':'';
@@ -1088,7 +1089,7 @@ function playPage(){
   } else if(round.mode==='spot'){
     if(!round.wrong) round.wrong=makeSpot(q);
     h+=`<div class="ask">Знайди помилку і натисни на неї</div>`;
-    const [b,af]=q.s.split('___'); const start=b.trim()==='';
+    const [b,af]=q.s.split('___'); const start=isStart(b);
     const tok=(t,hit,extra)=>`<span class="tk${extra||''}" data-act="spot" data-hit="${hit?1:0}">${esc(t)}</span>`;
     const words=str=>str.split(/(\s+)/).map(p=>/^\s+$/.test(p)||!p?p:tok(p,false)).join('');
     let afterHtml=af||'';

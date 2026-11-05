@@ -1105,7 +1105,7 @@ function playPage(){
     if(!round.wrong) round.wrong=makeSpot(q);
     h+=`<div class="ask">Знайди помилку і натисни на неї</div>`;
     const [b,af]=q.s.split('___'); const start=isStart(b);
-    const tok=(t,hit,extra)=>`<span class="tk${extra||''}" data-act="spot" data-hit="${hit?1:0}">${esc(t)}</span>`;
+    const tok=(t,hit,extra)=>`<span class="tk${extra||''}" data-act="spot" data-hit="${hit?1:0}">${wordify(t)}</span>`;
     const words=str=>str.split(/(\s+)/).map(p=>/^\s+$/.test(p)||!p?p:tok(p,false)).join('');
     let afterHtml=af||'';
     const m=afterHtml.match(/^(\s*)(\S+)([\s\S]*)$/);

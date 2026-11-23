@@ -10,29 +10,29 @@ const RULES = {
     sub: "всередині чогось: простору, міста, води, території",
     rules: [
       { name: "Простори / кімнати", hint: "Є стіни навколо — ти всередині.", ex: [
-        { scene: `<div class="room">${ic("chef-hat", 40)}${ic("cooking-pot", 34)}</div>${lbl("kitchen")}`,
+        { scene: S.kitchen(),
           s: "Mom is [in] the kitchen.", ua: "Мама на кухні." },
-        { scene: `<div class="room">${ic("sofa", 40)}${ic("cat", 30)}</div>${lbl("room")}`,
+        { scene: S.room(),
           s: "The cat is [in] the room.", ua: "Кіт у кімнаті." } ]},
       { name: "Міста / країни", hint: "Ти всередині кордонів.", ex: [
-        { scene: `<div class="country">${ic("landmark", 44)}</div>${lbl("Paris")}`,
+        { scene: S.paris(),
           s: "I live [in] Paris.", ua: "Я живу в Парижі." },
-        { scene: `<div class="country c2">${ic("pizza", 44)}</div>${lbl("Italy")}`,
+        { scene: S.italy(),
           s: "We are [in] Italy.", ua: "Ми в Італії." } ]},
       { name: "Вода", hint: "Тіло занурене у воду.", ex: [
-        { scene: `<div class="water"></div><span class="in-water">${ic("person-standing", 46)}</span>`,
+        { scene: S.sea(),
           s: "He is swimming [in] the sea.", ua: "Він плаває в морі." },
-        { scene: `<div class="water"></div><span class="in-water deep">${ic("fish", 40)}</span>`,
+        { scene: S.river(),
           s: "Fish live [in] the river.", ua: "Риби живуть у річці." } ]},
       { name: "Напрямки / райони", hint: "Частина території — область всередині.", ex: [
-        { scene: `<div class="map"><div class="hl">${ic("mountain-snow", 24)}</div><div></div><div></div></div><span class="compass">N ↑</span>${lbl("the north")}`,
+        { scene: S.north(),
           s: "It snows [in] the north.", ua: "На півночі йде сніг." },
-        { scene: `<div class="map center"><div></div><div></div><div></div><div></div><div class="hl">${ic("building-2", 22)}</div><div></div><div></div><div></div><div></div></div>${lbl("city center")}`,
+        { scene: S.center(),
           s: "The hotel is [in] the city center.", ua: "Готель у центрі міста." } ]},
       { name: "Малий транспорт", hint: "Можна лише сидіти — не встанеш і не пройдешся.", ex: [
-        { scene: `${ic("car-taxi-front", 64)}<span class="note">лише сидиш</span>`,
+        { scene: S.taxi(),
           s: "She is [in] a taxi.", ua: "Вона в таксі." },
-        { scene: `${ic("helicopter", 64)}`,
+        { scene: S.heli(),
           s: "They flew [in] a helicopter.", ua: "Вони летіли гелікоптером." } ]},
     ],
     exceptions: [["cloud", "in the sky"], ["globe", "in the world"], ["image", "in the picture"]],
@@ -42,27 +42,27 @@ const RULES = {
     sub: "на поверхні або «на борту»",
     rules: [
       { name: "Поверхні", hint: "Предмет торкається поверхні зверху або збоку.", ex: [
-        { scene: `<div class="surface">${ic("apple", 38)}<div class="bar"></div><div class="legs"><i></i><i></i></div></div>${lbl("table")}`,
+        { scene: S.table(),
           s: "The apple is [on] the table.", ua: "Яблуко на столі." },
-        { scene: `<div class="wall">${ic("frame", 44)}</div>${lbl("wall")}`,
+        { scene: S.wall(),
           s: "The picture is [on] the wall.", ua: "Картина на стіні." } ]},
       { name: "Великий транспорт", hint: "Всередині можна встати й пройтися.", ex: [
-        { scene: `${ic("bus", 64)}${ic("person-standing", 34, "soft")}<span class="note">можна ходити</span>`,
+        { scene: S.bus(),
           s: "I am [on] the bus.", ua: "Я в автобусі." },
-        { scene: `${ic("plane", 60)}${ic("person-standing", 34, "soft")}`,
+        { scene: S.plane(),
           s: "She is [on] a plane.", ua: "Вона в літаку." } ]},
       { name: "Техніка / медіа", hint: "Те, що на екрані чи в мережі.", ex: [
-        { scene: `${ic("tv", 64)}${lbl("TV")}`,
+        { scene: S.tv(),
           s: "The match is [on] TV.", ua: "Матч по телевізору." },
-        { scene: `${ic("smartphone", 56)}`,
+        { scene: S.phone(),
           s: "He is [on] the phone.", ua: "Він говорить по телефону." } ]},
       { name: "Поїздки на одного", hint: "Сидиш «верхи» на чомусь.", ex: [
-        { scene: `${ic("bike", 50)}${ic("scooter", 44)}${ic("motorbike", 50)}`,
+        { scene: S.bike(),
           s: "She goes to work [on] a bike.", ua: "Вона їздить на роботу велосипедом." } ]},
       { name: "Вулиці / поверхи", hint: "Назва вулиці без номера, номер поверху.", ex: [
-        { scene: `<div class="street"></div><span class="sign">Green St.</span><span class="on-street">${ic("store", 44)}</span>`,
+        { scene: S.street(),
           s: "The shop is [on] Green Street.", ua: "Магазин на Грін-стріт." },
-        { scene: `<div class="building"><div>3</div><div>2</div><div class="hl">1 ${ic("person-standing", 18)}</div><div>G</div></div>`,
+        { scene: S.floors(),
           s: "My flat is [on] the first floor.", ua: "Моя квартира на першому поверсі." } ]},
     ],
     exceptions: [["footprints", "on foot"], ["radio", "on the radio"], ["tree-palm", "on holiday"]],
@@ -72,28 +72,28 @@ const RULES = {
     sub: "точка на карті: поруч, на заході, за адресою",
     rules: [
       { name: "Точне місце", hint: "Ти біля — ні всередині, ні зверху.", ex: [
-        { scene: `${ic("person-standing", 44, "soft")}${ic("door-open", 60)}<span class="pin"></span>`,
+        { scene: S.door(),
           s: "Someone is [at] the door.", ua: "Хтось біля дверей." },
-        { scene: `${ic("person-standing", 44, "soft")}${ic("signpost", 58)}${lbl("bus stop")}`,
+        { scene: S.busstop(),
           s: "Wait for me [at] the bus stop.", ua: "Чекай мене на зупинці." } ]},
       { name: "Події", hint: "Ти присутній на заході.", ex: [
-        { scene: `${ic("party-popper", 50)}${ic("cake", 44)}`,
+        { scene: S.party(),
           s: "We met [at] a party.", ua: "Ми познайомились на вечірці." },
-        { scene: `${ic("guitar", 50)}${ic("mic-vocal", 44)}`,
+        { scene: S.concert(),
           s: "They are [at] a concert.", ua: "Вони на концерті." } ]},
       { name: "Адреса з номером", hint: "Є номер будинку → AT. Без номера → ON.", ex: [
-        { scene: `<div class="street"></div><span class="sign">Green St.</span><span class="on-street">${ic("house", 46)}<span class="plate">25</span></span>`,
+        { scene: S.address(),
           s: "She lives [at] 25 Green Street.", ua: "Вона живе на Грін-стріт, 25." } ]},
       { name: "Верх / низ чогось", hint: "Конкретна точка: at the top / at the bottom.", ex: [
-        { scene: `<div class="paper"><i class="hl"></i><i></i><i></i><i></i><i></i><i></i><span class="arrow">← top</span></div>`,
+        { scene: S.page(),
           s: "Write your name [at] the top of the page.", ua: "Напиши ім'я вгорі сторінки." } ]},
       { name: "Послуги / фахівці", hint: "У когось на прийомі: at the doctor's.", ex: [
-        { scene: `${ic("stethoscope", 56)}${lbl("doctor's")}`,
+        { scene: S.doctor(),
           s: "I'm [at] the doctor's.", ua: "Я в лікаря." },
-        { scene: `${ic("toothbrush", 56)}${lbl("dentist's")}`,
+        { scene: S.dentist(),
           s: "He is [at] the dentist's.", ua: "Він у стоматолога." } ]},
       { name: "Чийсь дім", hint: "at + ім'я + 's.", ex: [
-        { scene: `<span class="on-street">${ic("house", 58)}<span class="plate">John's</span></span>${ic("gamepad-2", 36, "soft")}`,
+        { scene: S.johns(),
           s: "We're [at] John's tonight.", ua: "Ми сьогодні в Джона." } ]},
     ],
     exceptions: [["house", "at home"], ["briefcase", "at work"], ["shopping-cart", "at the supermarket"]],
@@ -102,14 +102,14 @@ const RULES = {
 
 const VS = [
   { title: "prison",
-    in: { scene: `${ic("lock", 48)}${ic("user", 40, "soft")}`, s: "She is [in] prison.", ua: "Вона ув'язнена." },
-    at: { scene: `${ic("broom", 44)}${ic("building-2", 44, "soft")}`, s: "She is [at] prison.", ua: "Вона там працює чи відвідує." } },
+    in: { scene: S.prisonIn(), s: "She is [in] prison.", ua: "Вона ув'язнена." },
+    at: { scene: S.prisonAt(), s: "She is [at] prison.", ua: "Вона там працює чи відвідує." } },
   { title: "hospital",
-    in: { scene: `${ic("bed", 50)}`, s: "He is [in] the hospital.", ua: "Він пацієнт." },
-    at: { scene: `${ic("flower", 40)}${ic("hospital", 46, "soft")}`, s: "He is [at] hospital.", ua: "Він відвідує чи працює." } },
+    in: { scene: S.hospIn(), s: "He is [in] the hospital.", ua: "Він пацієнт." },
+    at: { scene: S.hospAt(), s: "He is [at] hospital.", ua: "Він відвідує чи працює." } },
   { title: "supermarket",
-    in: { scene: `${ic("users", 46)}${ic("shopping-cart", 40, "soft")}`, s: "Lots of people [in] the supermarket.", ua: "Саме всередині будівлі." },
-    at: { scene: `${ic("user", 40)}${ic("store", 46, "soft")}`, s: "I met a friend [at] the supermarket.", ua: "Десь там — неважливо, де саме." } },
+    in: { scene: S.marketIn(), s: "Lots of people [in] the supermarket.", ua: "Саме всередині будівлі." },
+    at: { scene: S.marketAt(), s: "I met a friend [at] the supermarket.", ua: "Десь там — неважливо, де саме." } },
 ];
 
 const sentence = (s) => s.replace(/\[(.+?)\]/g, '<span class="prep" tabindex="0">$1</span>');

@@ -356,34 +356,34 @@ tr.g-a .gcell{background:var(--a-soft)} tr.g-the .gcell{background:var(--the-sof
 .empty{padding:24px;text-align:center;color:var(--muted);font-weight:700}
 /* ===== Glass theme: frosted translucent cards over soft colour blobs ===== */
 :root{
-  --card:rgba(255,255,255,.42); --stroke:rgba(255,255,255,.78); --shadow:transparent; --bg:#f6efe8;
+  --card:rgba(255,255,255,.42); --stroke:rgba(255,255,255,.78); --shadow:transparent; --bg:#f4e6ec;
   --glass:rgba(255,255,255,.36); --glass2:rgba(255,255,255,.32); --glass-btn:rgba(255,255,255,.5);
   --glass-edge:rgba(255,255,255,.8); --glass-hi:rgba(255,255,255,.9); --glass-sh:rgba(130,70,100,.12);
   --g-a:rgba(240,150,135,.62); --g-the:rgba(130,195,180,.62); --g-z:rgba(236,200,120,.68);
   --g-sel:rgba(255,226,220,.6); --g-tip:rgba(255,243,213,.45); --g-ok:rgba(217,245,228,.55); --g-bad:rgba(253,224,221,.55);
   --ill-line:#9a7b87; --ill-card:#fffafb;
-  --bgimg:radial-gradient(44% 32% at 6% 4%,#f5b2a4 0,transparent 70%),radial-gradient(42% 30% at 96% 16%,#f5dc98 0,transparent 70%),
-    radial-gradient(46% 36% at 88% 68%,#b6e2d6 0,transparent 70%),radial-gradient(40% 30% at 8% 58%,#f6e2a8 0,transparent 70%),
-    radial-gradient(52% 36% at 40% 100%,#f3c0b4 0,transparent 70%),linear-gradient(180deg,#f8ede7,#f4f2e8);
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#f7b3cb 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#ffc9a3 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#d7c3f4 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#bfe6d9 0,transparent 70%),
+    radial-gradient(50% 35% at 45% 100%,#ffd6e2 0,transparent 70%),linear-gradient(180deg,#f6e4ec,#fbeee6);
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#171513;
+  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#1a1216;
   --glass:rgba(48,32,40,.5); --glass2:rgba(255,255,255,.05); --glass-btn:rgba(255,255,255,.09);
   --glass-edge:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.08); --glass-sh:rgba(0,0,0,.35);
   --g-sel:rgba(232,150,135,.18); --g-tip:rgba(230,199,132,.12); --g-ok:rgba(63,207,125,.14); --g-bad:rgba(255,107,96,.14);
   --ill-line:#b89aa6; --ill-card:#2a1d23;
-  --bgimg:radial-gradient(44% 32% at 6% 4%,#5c2c25 0,transparent 70%),radial-gradient(42% 30% at 96% 16%,#4d3d18 0,transparent 70%),
-    radial-gradient(46% 36% at 88% 68%,#1b4239 0,transparent 70%),radial-gradient(40% 30% at 8% 58%,#463a19 0,transparent 70%),
-    radial-gradient(52% 36% at 40% 100%,#4e2723 0,transparent 70%),linear-gradient(180deg,#191412,#141613)}}
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#5a2a3e 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#55361f 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#3a2c58 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#1f4038 0,transparent 70%),
+    linear-gradient(180deg,#1d1318,#1a1412)}}
 :root[data-theme="dark"]{
-  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#171513;
+  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#1a1216;
   --glass:rgba(48,32,40,.5); --glass2:rgba(255,255,255,.05); --glass-btn:rgba(255,255,255,.09);
   --glass-edge:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.08); --glass-sh:rgba(0,0,0,.35);
   --g-sel:rgba(232,150,135,.18); --g-tip:rgba(230,199,132,.12); --g-ok:rgba(63,207,125,.14); --g-bad:rgba(255,107,96,.14);
   --ill-line:#b89aa6; --ill-card:#2a1d23;
-  --bgimg:radial-gradient(44% 32% at 6% 4%,#5c2c25 0,transparent 70%),radial-gradient(42% 30% at 96% 16%,#4d3d18 0,transparent 70%),
-    radial-gradient(46% 36% at 88% 68%,#1b4239 0,transparent 70%),radial-gradient(40% 30% at 8% 58%,#463a19 0,transparent 70%),
-    radial-gradient(52% 36% at 40% 100%,#4e2723 0,transparent 70%),linear-gradient(180deg,#191412,#141613)}
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#5a2a3e 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#55361f 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#3a2c58 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#1f4038 0,transparent 70%),
+    linear-gradient(180deg,#1d1318,#1a1412)}
 body::before{background:var(--bgimg)}
 .sticker,.btn,.mode,.chip,.witem,.illcard,.tcell,.scol,.gcol,.pitem,.exlist li,.more,.studybox,.tablewrap,.fb,.addform,.seg span,
 .wmode,.picker,.tip,.unc,.minichip,.srow2,.gitem,.badge,.tok,.streak,.opt,.sslot,input[type=text]{

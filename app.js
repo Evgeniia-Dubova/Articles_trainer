@@ -145,6 +145,49 @@ document.getElementById("vsGrid").innerHTML = VS.map(v => `
     </div>
   </article>`).join("");
 
+// Шпаргалка — таблиця правил з конспекту
+const CHEAT = [
+  { key: "in", exc: ["in the sky", "in the world", "in the picture"], rows: [
+    ["Spaces / rooms", "", "in the room, in the car, in the kitchen"],
+    ["Cities / countries", "", "in Paris, in Italy"],
+    ["Water", "", "in the pool, in the sea, in the river"],
+    ["Directions / areas", "", "in the north, in the city center, in the countryside"],
+    ["Small vehicles", "", "in a car, in a taxi, in a helicopter"] ]},
+  { key: "on", exc: ["on foot", "on the radio", "on holiday"], rows: [
+    ["Surfaces", "", "on the table, on the floor, on the wall"],
+    ["Transport", "big vehicles you can walk on", "on a bus, on a plane, on a train, on a ship"],
+    ["Technology / media", "", "on TV, on the internet, on the phone"],
+    ["1-person rides", "", "horses, scooters, bikes"],
+    ["Directions", "with streets / floors", "on Green Street, on the first floor"] ]},
+  { key: "at", exc: ["at home", "at work", "at the supermarket"], rows: [
+    ["Exact locations", "you’re near but neither IN nor ON", "at the door, at the bus stop, at the station"],
+    ["Events", "", "at a party, at a concert, at school"],
+    ["Addresses", "with number", "at 25 Green Street"],
+    ["Top / bottom of something", "", "at the top of the page, at the bottom of the screen"],
+    ["Services / professionals", "", "at the doctor’s, at the dentist’s"],
+    ["Someone’s house / home / place", "", "at my friend’s (house), at John’s"] ]},
+];
+const mark = (key, t) => t.replace(new RegExp(`\\b${key}\\b`, "g"), `<b class="w">${key}</b>`);
+document.getElementById("cheatTable").innerHTML = CHEAT.map(c => `
+  <div class="cheat-row ${c.key}">
+    <div class="cheat-side">
+      <a class="badge badge-${c.key}" href="#${c.key}">${c.key.toUpperCase()}</a>
+      <div class="cheat-exc"><span>Exceptions</span>${c.exc.map(e => `<div>${mark(c.key, e)}</div>`).join("")}</div>
+    </div>
+    <dl class="cheat-list">${c.rows.map(([name, note, ex]) => `
+      <div><dt>${name}${note ? ` <i>(${note})</i>` : ""}</dt><dd>${mark(c.key, ex)}</dd></div>`).join("")}
+    </dl>
+  </div>`).join("") + `
+  <div class="cheat-row cheat-vs">
+    <div class="cheat-side"><a class="badge badge-vs" href="#vs">AT vs IN</a></div>
+    <div class="cheat-vs-grid">
+      <p>She is <b class="w in">in</b> prison <i>(= she’s a prisoner)</i>.<br>She is <b class="w at">at</b> prison <i>(= inside the building, could be working, visiting, cleaning)</i>.</p>
+      <p>He is <b class="w in">in</b> the hospital <i>(= he’s there as a patient)</i>.<br>He is <b class="w at">at</b> hospital <i>(= inside the building, maybe visiting someone or working there)</i>.</p>
+      <p>I met my friend <b class="w at">at</b> the supermarket <i>(general location: maybe inside, maybe just outside)</i>.</p>
+      <p>There are a lot of people <b class="w in">in</b> the supermarket today <i>(inside the building, not in the parking lot)</i>.</p>
+    </div>
+  </div>`;
+
 // Режим «Перевір себе»
 const toggle = document.getElementById("quizMode");
 toggle.addEventListener("change", () => {

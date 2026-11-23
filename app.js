@@ -193,7 +193,12 @@ const toggle = document.getElementById("quizMode");
 toggle.addEventListener("change", () => {
   document.body.classList.toggle("quiz", toggle.checked);
   document.querySelectorAll(".prep.shown").forEach(p => p.classList.remove("shown"));
+  document.querySelectorAll(".ex.solved").forEach(e => e.classList.remove("solved"));
 });
-const reveal = (t) => { if (document.body.classList.contains("quiz") && t.classList.contains("prep")) t.classList.add("shown"); };
+const reveal = (t) => {
+  if (!document.body.classList.contains("quiz") || !t.classList.contains("prep")) return;
+  t.classList.add("shown");
+  t.closest(".ex")?.classList.add("solved");
+};
 document.addEventListener("click", (e) => reveal(e.target));
 document.addEventListener("keydown", (e) => { if (e.key === "Enter") reveal(e.target); });

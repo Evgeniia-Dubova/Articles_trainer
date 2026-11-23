@@ -185,6 +185,21 @@ body.quiz .prep:not(.shown)::after{content:"?";color:#b39ab8;position:absolute;l
 .ill .sf{fill:color-mix(in srgb,var(--c) 16%,#fff)}
 .ill .sfl{stroke:var(--c)}
 
+/* герой-слово на малюнку */
+.ill .wd{fill:var(--c)}
+.ill .wd.apple{fill:#7fcb92}
+.ill .bd{transform-box:fill-box;transform-origin:center bottom}
+.ill .wd-q{display:none}
+.ex:hover .bd,.ex:active .bd{animation:hop .7s ease}
+@keyframes hop{25%{transform:translateY(-8px) rotate(-4deg)}50%{transform:translateY(0) scale(1.06,.94)}75%{transform:translateY(-3px) rotate(3deg)}}
+body.quiz .ex:not(.solved) .wd{fill:#fff;stroke:var(--c);stroke-dasharray:3 2.5}
+body.quiz .ex:not(.solved) .wd-t{display:none}
+body.quiz .ex:not(.solved) .wd-q{display:block;fill:var(--c)}
+body.quiz .ex:not(.solved):hover .bd{animation:none}
+body.quiz .ex.solved .bd{animation:land .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes land{0%{transform:translateY(-24px) scale(.7);opacity:0}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.ill .bd{animation:none!important}}
+
 /* VS */
 .vs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .vs-card{padding:14px;display:flex;flex-direction:column;gap:10px}

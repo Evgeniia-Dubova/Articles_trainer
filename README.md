@@ -6,6 +6,7 @@
 - `style.css` — скляний (glassmorphism) стиль
 - `app.js` — дані правил і прикладів (легко додавати нові)
 - `scenes.js` — ілюстрації-сценки (SVG)
+- `game.js` — міні-гра «Розсели героїв»
 - `icons.js` — лінійні іконки [Lucide](https://lucide.dev) (ISC License)
 
 ## GitHub Pages

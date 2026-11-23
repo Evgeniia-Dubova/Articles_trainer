@@ -20,6 +20,7 @@
       <a href="#on" class="pill pill-on">ON</a>
       <a href="#at" class="pill pill-at">AT</a>
       <a href="#vs" class="pill pill-vs">AT vs IN</a>
+      <a href="#game" class="pill pill-game">Гра</a>
     </nav>
     <label class="toggle" title="Сховати прийменники і перевірити себе">
       <input type="checkbox" id="quizMode">
@@ -62,6 +63,19 @@
       </div>
       <div id="vsGrid" class="vs-grid"></div>
     </section>
+    <section id="game" class="block">
+      <div class="block-head">
+        <span class="badge badge-game">Гра</span>
+        <p>Розсели героїв: кому належить фраза?</p>
+      </div>
+      <div class="arena glass" id="arena" tabindex="-1">
+        <div class="hud"><span class="hud-score" id="hudScore">0</span><span class="hud-streak" id="hudStreak"></span><span class="hud-lives" id="hudLives"></span></div>
+        <div class="lane" id="lane"></div>
+        <div class="feedback" id="fb" hidden></div>
+        <div class="homes" id="homes"></div>
+        <div class="overlay" id="ov" hidden></div>
+      </div>
+    </section>
   </main>
 
   <footer>Натисни <b>«Перевір себе»</b> вгорі — прийменники сховаються. Торкнись пропуску, щоб побачити відповідь.</footer>
@@ -69,5 +83,6 @@
   <script src="icons.js"></script>
   <script src="scenes.js"></script>
   <script src="app.js"></script>
+  <script src="game.js"></script>
 </body>
 </html>

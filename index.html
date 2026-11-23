@@ -354,6 +354,66 @@ tr.g-a .gcell{background:var(--a-soft)} tr.g-the .gcell{background:var(--the-sof
 .ill .fence{fill:var(--card);stroke:var(--stroke);stroke-width:2}
 .addform>*{min-width:0}
 .empty{padding:24px;text-align:center;color:var(--muted);font-weight:700}
+/* ===== Glass theme: frosted translucent cards over soft colour blobs ===== */
+:root{
+  --card:rgba(255,255,255,.42); --stroke:rgba(255,255,255,.78); --shadow:transparent; --bg:#f4e6ec;
+  --glass:rgba(255,255,255,.36); --glass2:rgba(255,255,255,.32); --glass-btn:rgba(255,255,255,.5);
+  --glass-edge:rgba(255,255,255,.8); --glass-hi:rgba(255,255,255,.9); --glass-sh:rgba(130,70,100,.12);
+  --g-a:rgba(240,150,135,.62); --g-the:rgba(130,195,180,.62); --g-z:rgba(236,200,120,.68);
+  --g-sel:rgba(255,226,220,.6); --g-tip:rgba(255,243,213,.45); --g-ok:rgba(217,245,228,.55); --g-bad:rgba(253,224,221,.55);
+  --ill-line:#9a7b87; --ill-card:#fffafb;
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#f7b3cb 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#ffc9a3 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#d7c3f4 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#bfe6d9 0,transparent 70%),
+    radial-gradient(50% 35% at 45% 100%,#ffd6e2 0,transparent 70%),linear-gradient(180deg,#f6e4ec,#fbeee6);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#1a1216;
+  --glass:rgba(48,32,40,.5); --glass2:rgba(255,255,255,.05); --glass-btn:rgba(255,255,255,.09);
+  --glass-edge:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.08); --glass-sh:rgba(0,0,0,.35);
+  --g-sel:rgba(232,150,135,.18); --g-tip:rgba(230,199,132,.12); --g-ok:rgba(63,207,125,.14); --g-bad:rgba(255,107,96,.14);
+  --ill-line:#b89aa6; --ill-card:#2a1d23;
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#5a2a3e 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#55361f 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#3a2c58 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#1f4038 0,transparent 70%),
+    linear-gradient(180deg,#1d1318,#1a1412)}}
+:root[data-theme="dark"]{
+  --card:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.14); --bg:#1a1216;
+  --glass:rgba(48,32,40,.5); --glass2:rgba(255,255,255,.05); --glass-btn:rgba(255,255,255,.09);
+  --glass-edge:rgba(255,255,255,.14); --glass-hi:rgba(255,255,255,.08); --glass-sh:rgba(0,0,0,.35);
+  --g-sel:rgba(232,150,135,.18); --g-tip:rgba(230,199,132,.12); --g-ok:rgba(63,207,125,.14); --g-bad:rgba(255,107,96,.14);
+  --ill-line:#b89aa6; --ill-card:#2a1d23;
+  --bgimg:radial-gradient(42% 32% at 8% 6%,#5a2a3e 0,transparent 70%),radial-gradient(40% 30% at 95% 18%,#55361f 0,transparent 70%),
+    radial-gradient(45% 35% at 85% 70%,#3a2c58 0,transparent 70%),radial-gradient(40% 30% at 10% 60%,#1f4038 0,transparent 70%),
+    linear-gradient(180deg,#1d1318,#1a1412)}
+body::before{background:var(--bgimg)}
+.sticker,.btn,.mode,.chip,.witem,.illcard,.tcell,.scol,.gcol,.pitem,.exlist li,.more,.studybox,.tablewrap,.fb,.addform,.seg span,
+.wmode,.picker,.tip,.unc,.minichip,.srow2,.gitem,.badge,.tok,.streak,.opt,.sslot,input[type=text]{
+  -webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--glass-edge)!important;
+  box-shadow:0 8px 30px var(--glass-sh),inset 0 1px 0 var(--glass-hi)!important}
+.sticker{background:var(--glass);border-radius:26px}
+.mode,.illcard,.tcell,.scol,.gcol,.pitem,.exlist li,.more,.witem{background:var(--glass2);border-radius:18px}
+.more .exlist li{background:var(--glass2)}
+.btn{background:var(--glass-btn);border-radius:16px}
+.btn:hover{transform:translateY(-1px)} .btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--g-a)} .btn.sun{background:var(--g-z)} .btn.teal{background:var(--g-the)}
+.btn.ghost{background:transparent;border-color:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none;backdrop-filter:none}
+.mode.sel{background:var(--g-sel);transform:none}
+.mode.sel.m-a,.mode.sel.m-the,.mode.sel.m-zero{background:var(--g-sel)}
+.tok{color:var(--on)}
+.tok:nth-child(1),.tok:nth-child(2){background:var(--g-a)} .tok:nth-child(3){background:var(--g-the)} .tok:nth-child(4){background:var(--g-z)}
+.g-a .badge,.badge.g-a,.minichip.g-a{background:var(--g-a)} .g-the .badge,.badge.g-the,.minichip.g-the{background:var(--g-the)}
+.g-zero .badge,.badge.g-zero,.minichip.g-zero{background:var(--g-z)}
+.tip{background:var(--g-tip)} .unc{background:var(--g-sel)}
+.bar{background:var(--glass-btn);border:1px solid var(--glass-edge)}
+.opt.right{background:rgba(90,180,125,.72)} .opt.wrong{background:rgba(225,110,100,.72)}
+.fb.good{background:var(--g-ok)} .fb.miss{background:var(--g-bad)}
+.rcard:hover,.xcard:hover{transform:translateY(-2px);box-shadow:0 12px 34px var(--glass-sh),inset 0 1px 0 var(--glass-hi)!important}
+.ill,.crowd{--stroke:var(--ill-line);--card:var(--ill-card)}
+.flow li::before{border:1px solid var(--glass-edge);background:var(--glass-btn)}
+.flow li,.flow li:last-child{border-bottom-color:var(--glass-edge)}
+.flow li:not(:last-child)::after{background:transparent}
+.picker{background:var(--glass)}
+/* ===== end glass theme ===== */
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.confetti{display:none}}
 </style>
 

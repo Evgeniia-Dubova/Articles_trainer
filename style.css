@@ -70,7 +70,7 @@ main{max-width:1100px;margin:0 auto;padding:0 16px}
 .cheat-list dt{font-weight:800;color:color-mix(in srgb,var(--c) 72%,#2b1638)}
 .cheat-list dt i,.cheat-vs i{font-weight:600;font-style:normal;color:var(--muted);font-size:.88em}
 .cheat-list dd{margin:0}
-.cheat .tr{display:block;font-weight:700;font-size:.85em;color:color-mix(in srgb,var(--c) 85%,#2b1638);margin-top:1px}
+.cheat .tr{display:block;font-weight:600;font-size:.85em;color:var(--ink);margin-top:1px}
 .cheat-exc .tr{display:inline;font-style:normal;font-size:1em;letter-spacing:.04em}
 .cheat-list div{align-items:start}
 .w{font-weight:900;color:color-mix(in srgb,var(--c) 85%,#2b1638)}

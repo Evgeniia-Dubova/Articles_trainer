@@ -4,7 +4,7 @@
   --at:#5a3a2e; --at-soft:#d9c2b6;
   --vs:#3f51b5; --vs-soft:#c9d0ff;
   --ink:#2a2233; --muted:#5d5468;
-  --glass:rgba(255,255,255,.38);
+  --glass:rgba(255,255,255,.42);
   --glass-strong:rgba(255,255,255,.55);
   --stroke:rgba(255,255,255,.7);
   --shadow:0 10px 40px rgba(60,30,80,.15);
@@ -14,15 +14,8 @@
 html{scroll-behavior:smooth;scroll-padding-top:90px}
 body{
   margin:0;font-family:"Nunito",system-ui,sans-serif;color:var(--ink);
-  background:#f3e4f4;min-height:100vh;
+  background:#a9c7e8;min-height:100vh;
 }
-.blobs{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:linear-gradient(135deg,#ffe3cc 0%,#f6d9f2 40%,#d8defc 75%,#cdeef0 100%)}
-.blobs span{position:absolute;border-radius:50%;filter:blur(70px);opacity:.65;animation:float 18s ease-in-out infinite}
-.blobs span:nth-child(1){width:420px;height:420px;background:#ffa86b;top:-80px;left:-100px}
-.blobs span:nth-child(2){width:380px;height:380px;background:#d78be6;top:30%;right:-120px;animation-delay:-5s}
-.blobs span:nth-child(3){width:340px;height:340px;background:#7f93ff;bottom:-100px;left:20%;animation-delay:-9s}
-.blobs span:nth-child(4){width:260px;height:260px;background:#6fd6c8;top:55%;left:-60px;animation-delay:-13s}
-@keyframes float{50%{transform:translate(40px,-30px) scale(1.08)}}
 
 .glass{
   background:var(--glass);
@@ -160,4 +153,4 @@ footer{max-width:1100px;margin:40px auto 30px;padding:0 16px;text-align:center;c
   .badge{font-size:1.6rem}
   .vs-pair{grid-template-columns:1fr}
 }
-@media (prefers-reduced-motion:reduce){.blobs span{animation:none}html{scroll-behavior:auto}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}

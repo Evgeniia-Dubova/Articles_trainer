@@ -6,7 +6,7 @@
   --glass:rgba(255,255,255,.48);
   --glass-strong:rgba(255,255,255,.55);
   --stroke:rgba(255,255,255,.85);
-  --shadow:0 8px 32px rgba(120,60,90,.12);
+  --shadow:0 8px 32px rgba(110,90,150,.10);
   --r:24px;
 }
 *{box-sizing:border-box}
@@ -15,8 +15,12 @@ body{margin:0;font-family:"Nunito",system-ui,sans-serif;color:var(--ink);backgro
 /* фон як на референсі: блакитний зверху → рожева пляма → кремовий низ */
 .bg{position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(ellipse 75% 45% at 50% 42%,rgba(255,107,107,.95) 0%,rgba(255,107,107,.55) 45%,rgba(255,107,107,0) 75%),
-    linear-gradient(180deg,#58A6FF 0%,#8f9fe6 18%,#e98a9a 38%,#ffb3a6 62%,#FFEDD5 82%,#FFEDD5 100%)}
+    radial-gradient(70% 55% at 12% 4%,rgba(88,166,255,.45) 0%,rgba(88,166,255,0) 70%),
+    radial-gradient(60% 50% at 92% 14%,rgba(120,150,255,.30) 0%,rgba(120,150,255,0) 70%),
+    radial-gradient(75% 55% at 60% 52%,rgba(255,107,107,.26) 0%,rgba(255,107,107,0) 72%),
+    radial-gradient(60% 45% at 6% 66%,rgba(255,140,150,.20) 0%,rgba(255,140,150,0) 70%),
+    radial-gradient(70% 40% at 85% 92%,rgba(255,190,150,.30) 0%,rgba(255,190,150,0) 70%),
+    linear-gradient(170deg,#dceaff 0%,#eee3f6 30%,#fde3e6 58%,#ffead9 80%,#FFEDD5 100%)}
 
 .glass{
   background:var(--glass);
@@ -48,11 +52,11 @@ main{max-width:1100px;margin:0 auto;padding:0 16px}
 
 /* hero */
 .hero{text-align:center;padding:48px 0 16px}
-.hero h1{font-size:clamp(1.8rem,5vw,3rem);margin:0 0 8px;font-weight:900;color:#fff;text-shadow:0 2px 18px rgba(60,30,90,.25)}
-.hero h1 em{background:rgba(255,255,255,.85);padding:0 .25em;border-radius:14px;text-shadow:none}
+.hero h1{font-size:clamp(1.8rem,5vw,3rem);margin:0 0 8px;font-weight:900;color:var(--ink)}
+.hero h1 em{background:rgba(255,255,255,.6);padding:0 .25em;border-radius:14px;border:1px solid var(--stroke)}
 .hero h1 em{font-style:normal}
 .hero h1 em:nth-of-type(1){color:var(--in)}.hero h1 em:nth-of-type(2){color:var(--on)}.hero h1 em:nth-of-type(3){color:var(--at)}
-.lead{color:#fff;font-size:1.1rem;margin:0 0 24px;font-weight:700;text-shadow:0 1px 10px rgba(60,30,90,.25)}
+.lead{color:var(--muted);font-size:1.1rem;margin:0 0 24px;font-weight:600}
 .big3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .big{margin:0;padding:24px 12px 16px}
 .big.in{--c:var(--in)}.big.on{--c:var(--on)}.big.at{--c:var(--at)}
